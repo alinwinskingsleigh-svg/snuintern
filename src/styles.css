@@ -1,0 +1,66 @@
+body {
+  font-family: Pretendard, sans-serif;
+  background-color: #fff;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 40px;
+  border-bottom: 1px solid #eee;
+  align-items: center;
+}
+
+.nav-links a, .nav-links button {
+  margin-left: 20px;
+  text-decoration: none;
+  color: #333;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.form-container {
+  max-width: 380px;
+  margin: 80px auto;
+  text-align: center;
+}
+
+.form-container input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.2s;
+}
+
+.form-container input:focus {
+  border-color: #4c6ef5;
+  outline: none;
+}
+
+.email-field {
+  display: flex;
+  align-items: center;
+}
+
+.email-field span {
+  margin-left: 6px;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #4c6ef5;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #3b5bdb;
+}
