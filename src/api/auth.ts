@@ -1,6 +1,10 @@
 const BASE_URL = "https://api-internhasha.wafflestudio.com";
 
-// src/api/auth.ts
+export interface User {
+  id: string;
+  userRole: string;
+}
+
 export interface SignupRequest {
   authType: "APPLICANT";
   info: {
@@ -11,41 +15,49 @@ export interface SignupRequest {
     successCode: string;
   };
 }
-
-export interface SignupResponse {
-  token?: string;
-  [key: string]: any; // 서버에서 추가로 반환하는 데이터가 있으면 대응
+// types.ts 또는 Signup.tsx 위쪽
+export interface SignupInfo {
+  type: "APPLICANT";
+  name: string;
+  email: string;
+  password: string;
+  successCode: string;
 }
 
-export const signup = async (data: SignupRequest): Promise<SignupResponse> => {
-  try {
-    const response = await fetch("${BASE_URL}/api/auth/user/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    const text = await response.text();
-    let json;
-    try {
-      json = text ? JSON.parse(text) : {};
-    } catch {
-      json = {};
-    }
-    
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error("Signup error:", errorData);
-      return {}; // 실패 시 빈 객체 반환
-    }
+export interface SignupData {
+  authType: "APPLICANT";
+  info: SignupInfo;
+}
 
-    return await response.json();
-  } catch (err) {
-    console.error("Signup fetch failed:", err);
-    return {};
+export interface SignupResponse {
+  user?: User;
+  token?: string;
+  [key: string]: any;
+}
+
+
+// signup 함수
+export async function signup(data: SignupData) {
+  
+  const response = await fetch(
+    "https://api-internhasha.wafflestudio.com/api/auth/user",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    }
+  );
+
+  // 성공 / 실패 모두 JSON으로 처리
+  const result = await response.json().catch(() => ({}));
+
+  if (!response.ok) {
+    throw new Error(`Signup failed: ${response.status}`);
   }
-};
+
+  return result;
+}
+
 
 export const login = async (email: string, password: string) => {
   const res = await fetch(`${BASE_URL}/api/auth/user/session`, {
