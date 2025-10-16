@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { signup } from "../api/auth";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+
 
 interface SignupProps {
   setUser: React.Dispatch<React.SetStateAction<any>>;
@@ -80,7 +82,7 @@ const Signup: React.FC<SignupProps> = ({ setUser, setToken }) => {
             required
           />
           <span className="toggle-eye" onClick={() => setShowPassword((s) => !s)}>
-            {showPassword ? "👁️" : "🙈"}
+            {showPassword ? <FaEye /> : <FaEyeSlash />} 
           </span>
         </div>
 
@@ -94,7 +96,7 @@ const Signup: React.FC<SignupProps> = ({ setUser, setToken }) => {
             required
           />
           <span className="toggle-eye" onClick={() => setShowConfirm((s) => !s)}>
-            {showConfirm ? "👁️" : "🙈"}
+            {showConfirm ? <FaEye /> : <FaEyeSlash />}
           </span>
         </div>
 
