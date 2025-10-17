@@ -1,131 +1,185 @@
-import React, { useState } from "react";
-import { signup } from "../api/auth";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
-
-
-interface SignupProps {
-  setUser: React.Dispatch<React.SetStateAction<any>>;
-  setToken: React.Dispatch<React.SetStateAction<string | null>>;
+/* 전체 기본 */
+body {
+  font-family: Pretendard, sans-serif;
+  background-color: #f8f9fa;
+  margin: 0;
+  padding: 0;
+  color: #333;
+  display: block;
+  min-height: 100vh; /* 화면 세로 중앙 */
 }
 
-const passwordRules = [
-  { label: "8자리 이상 (필수)", test: (pw: string) => pw.length >= 8 },
-  { label: "숫자 포함", test: (pw: string) => /\d/.test(pw) },
-  { label: "영문 대소문자 포함", test: (pw: string) => /[a-z]/.test(pw) && /[A-Z]/.test(pw) },
-  { label: "특수문자 포함", test: (pw: string) => /[!@#$%^&*(),.?":{}|<>]/.test(pw) },
-  {
-    label: "연속된 문자열이나 숫자 없음",
-    test: (pw: string) => !/(012|123|234|345|456|567|678|789|abc|bcd|cde|def|efg|fgh|ghi|hij|ijk|jkl|klm|lmn|mno|nop|opq|pqr|qrs|rst|stu|tuv|uvw|vwx|wxy|xyz)/i.test(pw),
-  },
-];
 
-const Signup: React.FC<SignupProps> = ({ setUser, setToken }) => {
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirm, setConfirm] = useState("");
-  const [email, setEmail] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
-  const [focused, setFocused] = useState(false);
+/* 네비게이션 */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 40px;
+  border-bottom: 1px solid #eee;
+  align-items: center;
+  background-color: #fff;
+}
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (password !== confirm) {
-      alert("비밀번호가 일치하지 않습니다!");
-      return;
-    }
+.nav-links a,
+.nav-links button {
+  margin-left: 20px;
+  text-decoration: none;
+  color: #333;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+}
 
-    try {
-      const data = await signup({
-        authType: "APPLICANT",
-        info: {
-          type: "APPLICANT",
-          name: name.trim(),
-          email: `${email.trim()}@snu.ac.kr`,
-          password: password.trim(),
-          successCode: "STRING",
-        },
-      });
 
-      if (data.token && data.user) {
-        localStorage.setItem("token", data.token);
-        setToken(data.token);
-        setUser(data.user);
-        window.location.href = "/";
-      } else {
-        alert("회원가입 실패! 서버 응답을 확인하세요.");
-      }
-    } catch (err) {
-      console.error(err);
-      alert("회원가입 중 오류가 발생했습니다!");
-    }
-  };
+/* 폼 컨테이너 */
+.form-container {
+  width: 100%;
+  max-width: 400px;
+  padding: 40px 30px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 18px; /* 입력창, 버튼 간 간격 */
+  margin: 100px auto;
+}
 
-  return (
-    <div className="form-container">
-      <h2>회원가입</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          placeholder="이름"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
+/* 제목 */
+h2 {
+  margin-bottom: 10px;
+  color: #2c3e50;
+  font-size: 22px;
+}
 
-        <div className="password-wrapper">
-          <input
-            placeholder="비밀번호"
-            type={showPassword ? "text" : "password"}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            onFocus={() => setFocused(true)}
-            required
-          />
-          <span className="toggle-eye" onClick={() => setShowPassword((s) => !s)}>
-            {showPassword ? <FaEye /> : <FaEyeSlash />} 
-          </span>
-        </div>
+/* 입력 필드 */
+.form-container input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+  margin: 10px 0;
+}
 
-        <div className="password-wrapper">
-          <input
-            placeholder="비밀번호 확인"
-            type={showConfirm ? "text" : "password"}
-            value={confirm}
-            onChange={(e) => setConfirm(e.target.value)}
-            onFocus={() => setFocused(true)}
-            required
-          />
-          <span className="toggle-eye" onClick={() => setShowConfirm((s) => !s)}>
-            {showConfirm ? <FaEye /> : <FaEyeSlash />}
-          </span>
-        </div>
+.form-container input:focus {
+  border-color: #4c6ef5;
+  outline: none;
+  box-shadow: 0 0 5px rgba(76, 110, 245, 0.4);
+  margin: 10px 0;
+}
 
-        {focused && (
-          <ul className="password-guidelines">
-            {passwordRules.map((rule, idx) => (
-              <li
-                key={idx}
-                className={rule.test(password) ? "met" : "unmet"}
-              >
-                {rule.label}
-              </li>
-            ))}
-          </ul>
-        )}
+/* 이메일 필드 */
+.email-field {
+  display: flex;
+  align-items: center;
+}
 
-        <div className="email-field">
-          <input
-            placeholder="이메일"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <span>@snu.ac.kr</span>
-        </div>
-        <button type="submit">회원가입</button>
-      </form>
-    </div>
-  );
-};
+.email-field input {
+  flex: 1;
+}
 
-export default Signup;
+.email-field span {
+  margin-left: 6px;
+  font-weight: 500;
+  color: #555;
+}
+
+/* 버튼 */
+button {
+  width: 100%;
+  padding: 14px;
+  background-color: #4c6ef5;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+button:hover {
+  background-color: #3b5bdb;
+  transform: translateY(-1px);
+}
+
+/* 비밀번호 입력 + 눈 아이콘 */
+.password-wrapper {
+  position: relative;
+  margin: 30px 0; /* 위아래 12px, 좌우 0px 마진 예시 */
+}
+
+.toggle-eye {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  user-select: none;
+  background: transparent;
+  border: none;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #555;
+  transition: color 0.15s ease, transform 0.08s ease;
+}
+
+.toggle-eye svg {
+  width: 18px;
+  height: 18px;
+}
+
+.toggle-eye:hover {
+  color: #4c6ef5;
+  transform: translateY(-50%) scale(1.05);
+}
+
+/* 비밀번호 가이드라인 */
+.password-guidelines {
+  list-style: none;
+  padding: 0;
+  margin: 6px 0 0 0;
+  text-align: left;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.password-guidelines li {
+  display: flex;
+  align-items: center;
+}
+
+.password-guidelines li::before {
+  content: "•";
+  display: inline-block;
+  width: 12px;
+  margin-right: 6px;
+  font-weight: bold;
+}
+
+.password-guidelines .met {
+  color: green;
+}
+
+.password-guidelines .unmet {
+  color: red;
+}
+
+/* 반응형 */
+@media (max-width: 480px) {
+  .form-container {
+    padding: 30px 20px;
+  }
+
+  button {
+    font-size: 14px;
+    padding: 12px;
+  }
+}
