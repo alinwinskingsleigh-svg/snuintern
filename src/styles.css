@@ -5,7 +5,7 @@ body {
   padding: 0;
   color: #333;
   display: block;
-  min-height: 100vh; 
+  min-height: 100vh;
 }
 
 .navbar {
@@ -41,7 +41,6 @@ body {
   gap: 18px; /* 입력창, 버튼 간 간격 */
   margin: 100px auto;
 }
-
 
 h2 {
   margin-bottom: 10px;
@@ -102,7 +101,7 @@ button:hover {
 
 .password-wrapper {
   position: relative;
-  margin: 12px 0; 
+  margin: 12px 0;
 }
 
 .toggle-eye {
@@ -161,7 +160,6 @@ button:hover {
 .password-guidelines .unmet {
   color: red;
 }
-
 
 @media (max-width: 480px) {
   .form-container {
