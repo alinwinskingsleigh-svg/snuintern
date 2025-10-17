@@ -1,27 +1,28 @@
-import React, { useState } from "react";
-import { getMe, login } from "../api/auth";
+import React, { useState } from 'react';
+import { getMe, login } from '../api/auth';
+import type { User } from '../types/user';
 
 interface LoginProps {
-  setUser: React.Dispatch<React.SetStateAction<any>>;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
   setToken: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 const Login: React.FC<LoginProps> = ({ setUser, setToken }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const data = await login(`${email}@snu.ac.kr`, password);
     if (data.token) {
-      localStorage.setItem("token", data.token);
+      localStorage.setItem('token', data.token);
       setToken(data.token);
       const me = await getMe(data.token);
       setUser(me);
-      window.location.href = "/";
+      window.location.href = '/';
     } else {
-      alert("로그인 실패!");
+      alert('로그인 실패!');
     }
   };
 
