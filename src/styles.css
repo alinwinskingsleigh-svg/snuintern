@@ -21,7 +21,14 @@ body {
 }
 
 .nav-links a,
-.nav-links button {
+.nav-links .user-name-text,
+.nav-links .logout-button {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 0;
+  border: none;
+  
   margin-left: 20px;
   text-decoration: none;
   color: #333;
@@ -31,6 +38,10 @@ body {
   font-weight: 500;
 }
 
+.nav-links .logout-button:hover {
+  background-color: #4c6ef5;
+  color: white;
+}
 
 /* 폼 컨테이너 */
 .form-container {
