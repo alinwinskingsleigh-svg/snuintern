@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 interface NavbarProps {
   user: { name: string } | null;
@@ -9,7 +9,9 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ user, onLogout }) => {
   return (
     <nav className="navbar">
-      <Link to="/" className="logo">스누인턴</Link>
+      <Link to="/" className="logo">
+        스누인턴
+      </Link>
       <div className="nav-links">
         {user ? (
           <>
