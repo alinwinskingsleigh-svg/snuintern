@@ -13,8 +13,8 @@ const Navbar: React.FC<NavbarProps> = ({ user, onLogout }) => {
       <div className="nav-links">
         {user ? (
           <>
-            <span>{user.name}님</span>
-            <button onClick={onLogout}>로그아웃</button>
+            <span className="user-name-text">{user.name}님</span> {/* 👈 클래스 추가 */}
+            <button onClick={onLogout} className="logout-button">로그아웃</button> {/* 👈 클래스 추가 */}
           </>
         ) : (
           <>
