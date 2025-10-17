@@ -9,7 +9,6 @@ body {
   min-height: 100vh; /* 화면 세로 중앙 */
 }
 
-
 /* 네비게이션 */
 .navbar {
   display: flex;
@@ -30,7 +29,6 @@ body {
   cursor: pointer;
   font-weight: 500;
 }
-
 
 /* 폼 컨테이너 */
 .form-container {
@@ -183,7 +181,6 @@ button:hover {
     padding: 12px;
   }
 }
-
 
 /* "로그인 후 이용하세요" 박스 */
 

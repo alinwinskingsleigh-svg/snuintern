@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 interface InputFieldProps {
   label: string;
@@ -16,14 +16,14 @@ const InputField: React.FC<InputFieldProps> = ({
   placeholder,
 }) => {
   const [show, setShow] = useState(false);
-  const isPassword = type === "password";
+  const isPassword = type === 'password';
 
   return (
     <div className="input-field">
       <label>{label}</label>
       <div className="input-wrapper">
         <input
-          type={isPassword && show ? "text" : type}
+          type={isPassword && show ? 'text' : type}
           value={value}
           onChange={onChange}
           placeholder={placeholder}
@@ -31,7 +31,7 @@ const InputField: React.FC<InputFieldProps> = ({
         />
         {isPassword && (
           <span className="eye" onClick={() => setShow(!show)}>
-            {show ? "👁️" : "🙈"}
+            {show ? '👁️' : '🙈'}
           </span>
         )}
       </div>
