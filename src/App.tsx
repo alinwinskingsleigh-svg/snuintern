@@ -5,12 +5,8 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import type { User } from "./types/user";
 import "./styles.css";
-
-interface User {
-  name: string;
-  email: string;
-}
 
 const App: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
