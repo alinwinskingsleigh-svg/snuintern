@@ -1,9 +1,6 @@
 const BASE_URL = "https://api-internhasha.wafflestudio.com";
 
-export interface User {
-  id: string;
-  userRole: string;
-}
+import type { User } from "../types/user";
 
 export interface SignupRequest {
   authType: "APPLICANT";
