@@ -1,4 +1,3 @@
-/* 전체 기본 */
 body {
   font-family: Pretendard, sans-serif;
   background-color: #f8f9fa;
@@ -6,10 +5,9 @@ body {
   padding: 0;
   color: #333;
   display: block;
-  min-height: 100vh; /* 화면 세로 중앙 */
+  min-height: 100vh; 
 }
 
-/* 네비게이션 */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -30,7 +28,6 @@ body {
   font-weight: 500;
 }
 
-/* 폼 컨테이너 */
 .form-container {
   width: 100%;
   max-width: 400px;
@@ -45,14 +42,13 @@ body {
   margin: 100px auto;
 }
 
-/* 제목 */
+
 h2 {
   margin-bottom: 10px;
   color: #2c3e50;
   font-size: 22px;
 }
 
-/* 입력 필드 */
 .form-container input {
   width: 100%;
   padding: 14px 16px;
@@ -71,7 +67,6 @@ h2 {
   margin: 10px 0;
 }
 
-/* 이메일 필드 */
 .email-field {
   display: flex;
   align-items: center;
@@ -87,7 +82,6 @@ h2 {
   color: #555;
 }
 
-/* 버튼 */
 button {
   width: 100%;
   padding: 14px;
@@ -106,10 +100,9 @@ button:hover {
   transform: translateY(-1px);
 }
 
-/* 비밀번호 입력 + 눈 아이콘 */
 .password-wrapper {
   position: relative;
-  margin: 12px 0; /* 위아래 12px, 좌우 0px 마진 예시 */
+  margin: 12px 0; 
 }
 
 .toggle-eye {
@@ -139,7 +132,6 @@ button:hover {
   transform: translateY(-50%) scale(1.05);
 }
 
-/* 비밀번호 가이드라인 */
 .password-guidelines {
   list-style: none;
   padding: 0;
@@ -170,7 +162,7 @@ button:hover {
   color: red;
 }
 
-/* 반응형 */
+
 @media (max-width: 480px) {
   .form-container {
     padding: 30px 20px;
@@ -181,8 +173,6 @@ button:hover {
     padding: 12px;
   }
 }
-
-/* "로그인 후 이용하세요" 박스 */
 
 .center-box {
   padding: 40px 30px;
