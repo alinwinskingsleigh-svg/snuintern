@@ -2,18 +2,7 @@ const BASE_URL = 'https://api-internhasha.wafflestudio.com';
 
 import type { User } from '../types/user';
 
-export interface SignupRequest {
-  authType: 'APPLICANT';
-  info: {
-    type: 'APPLICANT';
-    name: string;
-    email: string;
-    password: string;
-    successCode: string;
-  };
-}
-// types.ts 또는 Signup.tsx 위쪽
-export interface SignupInfo {
+interface SignupInfo {
   type: 'APPLICANT';
   name: string;
   email: string;
@@ -21,15 +10,9 @@ export interface SignupInfo {
   successCode: string;
 }
 
-export interface SignupData {
+interface SignupData {
   authType: 'APPLICANT';
   info: SignupInfo;
-}
-
-export interface SignupResponse {
-  user?: User;
-  token?: string;
-  [key: string]: unknown;
 }
 
 // signup 함수
