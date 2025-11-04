@@ -1,7 +1,7 @@
 // src/components/TopFilters.tsx
 import React, { useState } from 'react';
 import { DOMAINS } from '../constants/post';
-import type { GetPostsParams } from '../types/post';
+//import type { GetPostsParams } from '../types/post';
 
 interface TopFiltersProps {
   selectedDomains: string[];

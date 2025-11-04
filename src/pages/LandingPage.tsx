@@ -120,7 +120,7 @@ const LandingPage: React.FC = () => {
               <PostCard 
                 key={post.id} 
                 post={post} 
-                onBookmarkClick={() => { /* 찜하기 핸들러 */ }}
+                refreshPosts={() => { /* 찜하기 핸들러 */ }}
                 onLoginRequired={() => setIsModalOpen(true)} // 로그인 유도 모달
                 // refreshPosts={refreshPosts} // 찜하기 후 새로고침 (TODO)
               />
