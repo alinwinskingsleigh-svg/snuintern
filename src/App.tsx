@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import LandingPage from './pages/LandingPage';
 import type { User } from './types/user';
 import './styles.css';
 
@@ -34,7 +35,8 @@ const App: React.FC = () => {
     <Router>
       <Navbar user={user} onLogout={handleLogout} />
       <Routes>
-        <Route path="/" element={<Home user={user} />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/home" element={<Home user={user} />} />
         <Route
           path="/login"
           element={<Login setUser={setUser} setToken={setToken} />}
