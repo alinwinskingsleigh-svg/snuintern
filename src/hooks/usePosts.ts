@@ -1,6 +1,6 @@
 // src/hooks/usePosts.ts
 import { useState, useEffect } from 'react';
-import { Post, Paginator } from '../types/post';
+import type { Post, Paginator } from '../types/post';
 import { getPosts } from '../api/post';
 
 /**
@@ -32,7 +32,7 @@ export function usePosts(
     const fetchPosts = async () => {
         try {
             const data = await getPosts({
-                roles: selectedRoles.length > 0 ? selectedRoles : null,
+                positions: selectedRoles.length > 0 ? selectedRoles : null,
                 domains: selectedDomains.length > 0 ? selectedDomains : null,
                 isActive: isActive,
                 order: order,

@@ -1,11 +1,11 @@
 // src/components/JobFilter.tsx
 import React from 'react';
 import { POSITION_CATEGORIES } from '../constants/post';
-import type { PositionCategoryKey } from '../constants/post';
+import type { PositionValue, PositionCategoryKey } from '../constants/post';
 
 interface JobFilterProps {
   selectedRoles: string[];
-  onRoleToggle: (role: string) => void;
+  onRoleToggle: (role: PositionValue) => void;
   onCategoryAllToggle: (categoryKey: PositionCategoryKey) => void;
   isFilterOpen: boolean;
   // onToggleFilter: () => void; // 예시 코드에 있었으나, 현재는 LandingPage에서 isFilterOpen을 직접 관리하지 않으므로 생략 (필요하다면 추가 가능)
