@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import type { Post } from '../types/post';
 import { bookmarkPost, unbookmarkPost } from '../api/post';
+import '../css/PostCard.css';
+import { DOMAINS } from '../constants/post';
 // TODO: 로그인 상태를 확인하는 훅 (예: useAuth)이 있다고 가정합니다.
 // const useAuth = () => ({ isAuthenticated: !!localStorage.getItem('token') });
 
@@ -61,33 +63,30 @@ const PostCard: React.FC<PostCardProps> = ({ post, onLoginRequired, refreshPosts
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   const dDay = diffDays > 0 ? `D-${diffDays}` : '마감';
 
-  // TODO: CSS 파일이 없으므로 인라인 스타일로 임시 적용
+  const domainLabel = DOMAINS.find(d => d.value === post.domain)?.label || post.domain;
+
   return (
-    <div style={{ border: '1px solid #ddd', padding: '15px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+    <div className="post-card">
+      <div className="post-card__header">
         {/* 스펙: 회사 로고 블럭 처리 */}
-        <div style={{ width: '40px', height: '40px', backgroundColor: '#d0e0ff', borderRadius: '4px' }}>
-            {/* 로고 블럭 */}
-        </div>
-        
+        <div className="post-card__logo">{/* 로고 블럭 */}</div>
+
         {/* 북마크 버튼 */}
-        <button 
+        <button
           onClick={handleBookmarkToggle}
-          style={{ border: 'none', background: 'none', cursor: 'pointer', fontSize: '20px', color: isBookmarked ? '#FFD700' : '#ccc' }}
+          className={`post-card__bookmark-button ${
+            isBookmarked ? 'post-card__bookmark-button--bookmarked' : ''
+          }`}
         >
           {isBookmarked ? '★' : '☆'}
         </button>
       </div>
-      
-      <h3 style={{ fontSize: '18px', margin: '0 0 5px 0' }}>{post.positionTitle}</h3>
-      <div style={{ fontSize: '12px', padding: '2px 5px', backgroundColor: '#e0ffe0', borderRadius: '3px', alignSelf: 'flex-start', marginBottom: '10px' }}>
-          교육 (예시)
-      </div>
-      <p style={{ margin: '0 0 5px 0', fontSize: '14px', color: '#555' }}>{post.companyName}</p>
-      <p style={{ margin: '0 0 10px 0', fontSize: '14px', color: '#888' }}>마감까지 {dDay}</p>
-      <p style={{ fontSize: '12px', color: '#aaa', flexGrow: 1, overflow: 'hidden', maxHeight: '3em' }}>
-          {post.slogan}
-      </p>
+
+      <h3 className="post-card__title">{post.positionTitle}</h3>
+      <div className="post-card__domain">{domainLabel}</div>
+      <p className="post-card__company-name">{post.companyName}</p>
+      <p className="post-card__d-day">마감까지 {dDay}</p>
+      <p className="post-card__slogan">{post.slogan}</p>
     </div>
   );
 };
