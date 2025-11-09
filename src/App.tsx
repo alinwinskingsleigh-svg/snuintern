@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { getMe, logout } from './api/auth';
 import Navbar from './components/Navbar';
-import Home from './pages/Home';
+import LandingPage from './pages/LandingPage';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import type { User } from './types/user';
-import './styles.css';
+import './css/styles.css';
 
 const App: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -34,7 +34,7 @@ const App: React.FC = () => {
     <Router>
       <Navbar user={user} onLogout={handleLogout} />
       <Routes>
-        <Route path="/" element={<Home user={user} />} />
+        <Route path="/" element={<LandingPage />} />
         <Route
           path="/login"
           element={<Login setUser={setUser} setToken={setToken} />}

@@ -1,0 +1,115 @@
+/* /home/alinw/fe/snuintern/src/css/TopFilters.css */
+
+.top-filters-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.top-filters-left {
+  display: flex;
+}
+
+/* 드롭다운 컨테이너 */
+.filter-dropdown {
+  position: relative;
+}
+
+/* 드롭다운 토글 버튼 기본 스타일 */
+.filter-dropdown-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: none;
+  margin-right: 10px;
+  min-width: 100px;
+  font-family: inherit; /* body의 폰트 상속 */
+  font-size: inherit;
+}
+
+/* 각 필터 버튼의 최소 너비 설정 */
+.filter-dropdown-toggle.status-toggle {
+  min-width: 120px;
+}
+
+/* 필터가 적용되었을 때의 스타일 */
+.filter-dropdown-toggle.changed {
+  font-weight: bold;
+  border-color: #333;
+}
+
+.filter-dropdown-toggle .arrow {
+  margin-left: 8px;
+  transition: transform 0.2s;
+}
+
+/* 드롭다운 메뉴 */
+.filter-dropdown-menu {
+  position: absolute;
+  border: 1px solid #ccc;
+  background-color: white;
+  z-index: 10;
+  padding: 10px;
+  border-radius: 4px;
+  margin-top: 5px;
+  min-width: 150px; /* 메뉴 너비 확보 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.filter-dropdown-menu label {
+  display: block;
+  margin: 5px 0;
+  cursor: pointer;
+}
+
+.filter-dropdown-menu label input {
+  margin-right: 5px;
+}
+
+/* 업종(도메인) 메뉴 전용 스타일 */
+.domain-menu {
+  min-width: 180px;
+}
+
+.domain-menu-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #eee;
+}
+
+.domain-menu-actions button {
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.domain-menu-actions .reset-button {
+  border: 1px solid #ccc;
+  background-color: #ccc;
+}
+
+.domain-menu-actions .apply-button {
+  border: none;
+  background-color: #007bff;
+  color: white;
+}
+
+/* 전체 초기화 버튼 */
+.reset-all-button {
+  padding: 8px 15px;
+  border: 1px solid #ccc;
+  background-color: #ccc;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.reset-all-button .refresh-icon {
+  margin-right: 5px;
+}
