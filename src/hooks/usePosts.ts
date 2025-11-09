@@ -26,6 +26,7 @@ export function usePosts(
   const [error, setError] = useState<string | null>(null);
 
   // 모든 필터 상태와 페이지 번호를 의존성 배열로 사용
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     setLoading(true);
     setError(null);
@@ -42,17 +43,19 @@ export function usePosts(
 
         setPosts(data.posts);
         setPaginator(data.paginator);
-      } catch (err: any) {
+      } catch (err: unknown) {
         // 💡 예시 코드(usePosts.js)의 401 토큰 만료 처리 로직을 반영합니다.
         // fetch는 401이 발생해도 에러를 던지지 않으므로, API 응답 코드를 확인해야 합니다.
         // 다만, 여기서는 api/post.ts에서 이미 response.ok를 체크하므로,
         // 토큰 만료 시 서버에서 에러 메시지를 던져주거나,
         // 또는 usePosts.js 예시처럼 API 인스턴스에서 토큰 만료 시 새로고침하도록 가정합니다.
 
-        // 여기서는 단순화하여 에러 메시지만 설정합니다.
-        const errorMessage =
-          err.message || '데이터를 불러오는 데 실패했습니다.';
-        setError(errorMessage);
+        // `unknown` 타입의 에러를 안전하게 처리합니다.
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError('데이터를 불러오는 데 실패했습니다.');
+        }
       } finally {
         setLoading(false);
       }

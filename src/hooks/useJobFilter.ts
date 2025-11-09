@@ -3,44 +3,6 @@ import { useSearchParams } from 'react-router-dom';
 import { POSITION_CATEGORIES } from '../constants/post';
 // 'PositionValue'와 'PositionCategoryKey' 타입이 constants/post.ts에 정의되어 있어야 합니다.
 import type { PositionCategoryKey, PositionValue } from '../constants/post';
-import type { GetPostsParams } from '../types/post';
-
-/**
- * URL 쿼리 파라미터와 localStorage에서 초기 필터 상태를 읽어오는 헬퍼 함수
- * (react-week5 예시 기반)
- */
-const getInitialState = (key: keyof GetPostsParams, defaultValue: any): any => {
-  // 1순위: URL 쿼리 파라미터
-  const searchParams = new URLSearchParams(window.location.search);
-
-  // 'positionTypes' (직군) 또는 'domains' (업종)는 배열(getAll)로 읽어옴
-  if (key === 'positionTypes' || key === 'domains') {
-    // 'positions' -> 'positionTypes'
-    const urlParams = searchParams.getAll(key);
-    if (urlParams.length > 0) return urlParams;
-  } else {
-    // 나머지는 단일 값(get)으로 읽어옴
-    const urlParam = searchParams.get(key);
-    if (urlParam !== null) {
-      if (key === 'isActive') return urlParam === 'true';
-      if (key === 'order' || key === 'page') return parseInt(urlParam, 10);
-      return urlParam;
-    }
-  }
-
-  // 2순위: localStorage (추가 스펙 3: 필터 저장)
-  const stored = localStorage.getItem('filterState');
-  if (stored) {
-    const parsed = JSON.parse(stored);
-    // 'positions' -> 'positionTypes'
-    return parsed[key] !== undefined && parsed[key] !== null
-      ? parsed[key]
-      : defaultValue;
-  }
-
-  // 3순위: 기본값
-  return defaultValue;
-};
 
 /**
  * 직무 및 상단 필터 로직을 관리하는 커스텀 훅
@@ -49,17 +11,35 @@ const getInitialState = (key: keyof GetPostsParams, defaultValue: any): any => {
 export function useJobFilter() {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // 💡 1. 상태 초기화 (API 키 'positionTypes'로 localStorage/URL에서 읽어옴)
-  const [selectedRoles, setSelectedRoles] = useState<PositionValue[]>(
-    () => getInitialState('positionTypes', []) as PositionValue[]
-  );
-  const [selectedDomains, setSelectedDomains] = useState<string[]>(
-    () => getInitialState('domains', []) as string[]
-  );
-  const [isActive, setIsActive] = useState<boolean | null>(() =>
-    getInitialState('isActive', null)
-  );
-  const [order, setOrder] = useState<0 | 1>(() => getInitialState('order', 0));
+  // 💡 복잡한 getInitialState 함수 대신, 각 상태를 명시적으로 초기화합니다.
+  const [selectedRoles, setSelectedRoles] = useState<PositionValue[]>(() => {
+    const urlRoles = searchParams.getAll('positionTypes') as PositionValue[];
+    if (urlRoles.length > 0) return urlRoles;
+    const stored = JSON.parse(localStorage.getItem('filterState') || '{}');
+    return stored.positionTypes || [];
+  });
+
+  const [selectedDomains, setSelectedDomains] = useState<string[]>(() => {
+    const urlDomains = searchParams.getAll('domains');
+    if (urlDomains.length > 0) return urlDomains;
+    const stored = JSON.parse(localStorage.getItem('filterState') || '{}');
+    return stored.domains || [];
+  });
+
+  const [isActive, setIsActive] = useState<boolean | null>(() => {
+    const urlIsActive = searchParams.get('isActive');
+    if (urlIsActive !== null) return urlIsActive === 'true';
+    const stored = JSON.parse(localStorage.getItem('filterState') || '{}');
+    return stored.isActive ?? null;
+  });
+
+  const [order, setOrder] = useState<0 | 1>(() => {
+    const urlOrder = searchParams.get('order');
+    if (urlOrder === '1') return 1;
+    if (urlOrder === '0') return 0;
+    const stored = JSON.parse(localStorage.getItem('filterState') || '{}');
+    return stored.order ?? 0;
+  });
 
   // 💡 2. localStorage 저장 (API 키 'positionTypes'로 저장)
   useEffect(() => {
