@@ -8,6 +8,7 @@ export interface Post {
   companyName: string; // 회사 이름 [cite: 465]
   employmentEndDate: string; // 마감일 (ISO 8601) [cite: 467]
   positionTitle: string; // e.g. React Frontend 개발자 [cite: 468]
+  positionCategory: string; // e.g. 개발 [cite: 471]
   domain: string; // e.g. "FINTECH" [cite: 469]
   slogan: string; // 카드 하단에 들어갈 한 줄 소개 [cite: 470]
   headCount: number; // 모집 인원수 [cite: 472]

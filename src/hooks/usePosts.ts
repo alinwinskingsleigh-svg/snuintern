@@ -1,7 +1,7 @@
 // src/hooks/usePosts.ts
 import { useState, useEffect } from 'react';
 import type { Post, Paginator } from '../types/post';
-import { getPosts } from '../api/post';
+import { getPosts } from '../api/post_api';
 
 /**
  * 포스트 데이터를 가져오는 커스텀 훅
@@ -17,7 +17,8 @@ export function usePosts(
   selectedDomains: string[], 
   isActive: boolean | null, 
   order: 0 | 1, 
-  page: number
+  page: number,
+  bookmarkRefreshKey: number
 ) {
   const [posts, setPosts] = useState<Post[]>([]);
   const [paginator, setPaginator] = useState<Paginator>({ lastPage: 1 });
@@ -58,7 +59,7 @@ export function usePosts(
     }
     
     fetchPosts();
-  }, [selectedRoles, selectedDomains, isActive, order, page]);
+  }, [selectedRoles, selectedDomains, isActive, order, page, bookmarkRefreshKey]);
 
   return { posts, paginator, loading, error };
 }

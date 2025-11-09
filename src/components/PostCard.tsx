@@ -1,7 +1,7 @@
 // src/components/PostCard.tsx
 import React, { useState } from 'react';
 import type { Post } from '../types/post';
-import { bookmarkPost, unbookmarkPost } from '../api/post';
+import { bookmarkPost, unbookmarkPost } from '../api/post_api';
 import '../css/PostCard.css';
 import { DOMAINS } from '../constants/post';
 // TODO: 로그인 상태를 확인하는 훅 (예: useAuth)이 있다고 가정합니다.
