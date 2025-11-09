@@ -33,7 +33,7 @@ export function usePosts(
     const fetchPosts = async () => {
         try {
             const data = await getPosts({
-                positionTypes: selectedRoles.length > 0 ? selectedRoles : null,
+                positions: selectedRoles.length > 0 ? selectedRoles : null,
                 domains: selectedDomains.length > 0 ? selectedDomains : null,
                 isActive: isActive,
                 order: order,
