@@ -1,4 +1,5 @@
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
+const BASE_URL = "https://api-internhasha.wafflestudio.com";
+
 
 import type { User } from '../types/user';
 
