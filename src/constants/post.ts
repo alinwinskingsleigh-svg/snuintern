@@ -1,7 +1,7 @@
 // src/constants/post.ts
 
 // 직무 카테고리 (API 파라미터 값)
-export const POSITION_VALUES = {
+ const POSITION_VALUES = {
   FRONTEND: 'FRONT',
   BACKEND: 'BACKEND',
   APP: 'APP',
@@ -41,11 +41,6 @@ export const POSITION_CATEGORIES = {
   },
 } as const;
 
-// 모든 개발 직군 값 (개발 전체 선택 시 사용)
-export const ALL_DEV_POSITIONS = POSITION_CATEGORIES.개발.roles.map(
-  (r) => r.value
-);
-
 export type PositionCategoryKey = keyof typeof POSITION_CATEGORIES;
 
 // 도메인 (업종) 목록 (API 파라미터 값)
@@ -61,4 +56,3 @@ export const DOMAINS = [
   { value: 'OTHERS', label: '기타' },
 ] as const;
 
-export const DOMAIN_VALUES = DOMAINS.map((d) => d.value);
