@@ -1,6 +1,7 @@
 // src/components/TopFilters.tsx
 import React, { useState } from 'react';
 import { DOMAINS } from '../constants/post';
+import '../css/TopFilters.css';
 //import type { GetPostsParams } from '../types/post';
 
 interface TopFiltersProps {
@@ -95,35 +96,24 @@ const TopFilters = ({
     setter(!current);
   };
   
-  // TODO: CSS 파일이 없으므로 인라인 스타일로 임시 적용
-  const dropdownToggleStyle: React.CSSProperties = {
-      padding: '8px 15px',
-      border: '1px solid #ddd',
-      borderRadius: '4px',
-      cursor: 'pointer',
-      backgroundColor: 'white',
-      marginRight: '10px'
-  };
-
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-      <div style={{ display: 'flex' }}>
+    <div className="top-filters-container">
+      <div className="top-filters-left">
         
         {/* 1. 모집 상태 드롭다운 */}
-        <div className="filter-dropdown" style={{ position: 'relative' }}>
+        <div className="filter-dropdown">
           <button 
-            className={`filter-dropdown-toggle ${isStatusChanged ? 'changed' : ''}`}
+            className={`filter-dropdown-toggle status-toggle ${isStatusChanged ? 'changed' : ''}`}
             onClick={() => toggleDropdown(setIsStatusOpen, isStatusOpen)}
-            style={{ ...dropdownToggleStyle, fontWeight: isStatusChanged ? 'bold' : 'normal', minWidth: '120px' }}
           >
             <span>{getStatusLabel()}</span>
             <span className="arrow">▼</span>
           </button>
           
           {isStatusOpen && (
-            <div className="filter-dropdown-menu" style={{ position: 'absolute', border: '1px solid #ccc', backgroundColor: 'white', zIndex: 10, padding: '10px', borderRadius: '4px', marginTop: '5px' }}>
+            <div className="filter-dropdown-menu">
               {/* 전체 */}
-              <label style={{ display: 'block', marginBottom: '5px' }}>
+              <label>
                 <input
                   type="radio"
                   name="status"
@@ -136,7 +126,7 @@ const TopFilters = ({
                 <span>전체</span>
               </label>
               {/* 모집중 */}
-              <label style={{ display: 'block' }}>
+              <label>
                 <input
                   type="radio"
                   name="status"
@@ -153,20 +143,19 @@ const TopFilters = ({
         </div>
 
         {/* 2. 업종 (도메인) 드롭다운 */}
-        <div className="filter-dropdown" style={{ position: 'relative' }}>
+        <div className="filter-dropdown">
           <button 
             className={`filter-dropdown-toggle ${isDomainsChanged ? 'changed' : ''}`}
             onClick={() => toggleDropdown(setIsDomainOpen, isDomainOpen)}
-            style={{ ...dropdownToggleStyle, fontWeight: isDomainsChanged ? 'bold' : 'normal', minWidth: '100px' }}
           >
             <span>업종</span>
             <span className="arrow">▼</span>
           </button>
           
           {isDomainOpen && (
-            <div className="filter-dropdown-menu domain-menu" style={{ position: 'absolute', border: '1px solid #ccc', backgroundColor: 'white', zIndex: 10, padding: '10px', borderRadius: '4px', marginTop: '5px' }}>
+            <div className="filter-dropdown-menu domain-menu">
               {/* 전체 선택 */}
-              <label style={{ display: 'block', marginBottom: '5px' }}>
+              <label>
                 <input
                   type="checkbox"
                   checked={DOMAINS.every(d => selectedDomains.includes(d.value))}
@@ -177,7 +166,7 @@ const TopFilters = ({
               
               {/* 개별 도메인 */}
               {DOMAINS.map(domain => (
-                <label key={domain.value} style={{ display: 'block', margin: '3px 0' }}>
+                <label key={domain.value}>
                   <input
                     type="checkbox"
                     checked={selectedDomains.includes(domain.value)}
@@ -188,29 +177,28 @@ const TopFilters = ({
               ))}
               
               {/* 초기화 및 적용 버튼 */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px', paddingTop: '10px', borderTop: '1px solid #eee' }}>
-                <button onClick={handleDomainReset} style={{ padding: '5px 10px', border: '1px solid #ccc', backgroundColor: '#f0f0f0', cursor: 'pointer' }}>초기화</button>
-                <button onClick={handleApply} style={{ padding: '5px 10px', border: 'none', backgroundColor: '#007bff', color: 'white', cursor: 'pointer' }}>적용</button>
+              <div className="domain-menu-actions">
+                <button onClick={handleDomainReset} className="reset-button">초기화</button>
+                <button onClick={handleApply} className="apply-button">적용</button>
               </div>
             </div>
           )}
         </div>
 
         {/* 3. 정렬 드롭다운 */}
-        <div className="filter-dropdown" style={{ position: 'relative' }}>
+        <div className="filter-dropdown">
           <button 
             className={`filter-dropdown-toggle ${isSortChanged ? 'changed' : ''}`}
             onClick={() => toggleDropdown(setIsSortOpen, isSortOpen)}
-            style={{ ...dropdownToggleStyle, fontWeight: isSortChanged ? 'bold' : 'normal', minWidth: '100px' }}
           >
             <span>{getSortLabel()}</span>
             <span className="arrow">▼</span>
           </button>
           
           {isSortOpen && (
-            <div className="filter-dropdown-menu" style={{ position: 'absolute', border: '1px solid #ccc', backgroundColor: 'white', zIndex: 10, padding: '10px', borderRadius: '4px', marginTop: '5px' }}>
+            <div className="filter-dropdown-menu">
               {/* 최신순 (order: 0) */}
-              <label style={{ display: 'block', marginBottom: '5px' }}>
+              <label>
                 <input
                   type="radio"
                   name="sort"
@@ -223,7 +211,7 @@ const TopFilters = ({
                 <span>최신순</span>
               </label>
               {/* 마감순 (order: 1) */}
-              <label style={{ display: 'block' }}>
+              <label>
                 <input
                   type="radio"
                   name="sort"
@@ -241,10 +229,7 @@ const TopFilters = ({
       </div>
 
       {/* 4. 전체 초기화 버튼 */}
-      <button 
-        onClick={onResetFilters}
-        style={{ padding: '8px 15px', border: '1px solid #ccc', backgroundColor: '#f0f0f0', cursor: 'pointer' }}
-      >
+      <button onClick={onResetFilters} className="reset-all-button">
         <span className="refresh-icon" style={{ marginRight: '5px' }}>↻</span> 초기화
       </button>
     </div>
