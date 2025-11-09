@@ -170,19 +170,20 @@ export function useJobFilter() {
    * (react-week5 예시의 handleResetFilters 참조)
    */
   const handleResetFilters = useCallback(() => {
-    // 변경 사항이 있는지 확인
-    const hasChanges = selectedDomains.length > 0 || isActive !== null || order !== 0;
+    // 직군 필터를 포함하여 변경 사항이 있는지 확인
+    const hasChanges = selectedRoles.length > 0 || selectedDomains.length > 0 || isActive !== null || order !== 0;
     if (!hasChanges) return; // 변경된 것이 없으면 함수 종료
     
-    // 상단 필터 상태만 초기화
+    // 모든 필터 상태를 초기화
+    setSelectedRoles([]);
     setSelectedDomains([]);
     setIsActive(null);
     setOrder(0);
     
-    // URL 업데이트 (selectedRoles는 유지, page 리셋)
-    updateSearchParams(selectedRoles, [], null, 0, true); 
+    // URL 업데이트 (모든 필터 초기화, page 리셋)
+    updateSearchParams([], [], null, 0, true); 
 
-  }, [selectedRoles, updateSearchParams, selectedDomains.length, isActive, order]);
+  }, [selectedRoles.length, selectedDomains.length, isActive, order, updateSearchParams]);
 
   // 필터 포커싱 (추가 스펙 2)
   const isRolesChanged = selectedRoles.length > 0;

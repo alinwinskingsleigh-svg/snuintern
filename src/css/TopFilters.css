@@ -92,7 +92,7 @@
 
 .domain-menu-actions .reset-button {
   border: 1px solid #ccc;
-  background-color: #f0f0f0;
+  background-color: #ccc;
 }
 
 .domain-menu-actions .apply-button {
@@ -105,7 +105,7 @@
 .reset-all-button {
   padding: 8px 15px;
   border: 1px solid #ccc;
-  background-color: #f0f0f0;
+  background-color: #ccc;
   cursor: pointer;
   border-radius: 4px;
 }
