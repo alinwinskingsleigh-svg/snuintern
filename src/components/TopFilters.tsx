@@ -21,7 +21,7 @@ interface TopFiltersProps {
 /**
  * 상단 필터 컴포넌트 (모집상태, 업종, 정렬)
  */
-const TopFilters: React.FC<TopFiltersProps> = ({
+const TopFilters = ({
   selectedDomains,
   onDomainToggle,
   isActive,
@@ -32,7 +32,7 @@ const TopFilters: React.FC<TopFiltersProps> = ({
   isStatusChanged,
   isDomainsChanged,
   isSortChanged
-}) => {
+}: TopFiltersProps) => {
   // 드롭다운 내부 상태 관리 (TopFilters.jsx 로직)
   const [isStatusOpen, setIsStatusOpen] = useState(false);
   const [isDomainOpen, setIsDomainOpen] = useState(false);

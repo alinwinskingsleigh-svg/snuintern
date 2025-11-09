@@ -14,13 +14,13 @@ interface JobFilterProps {
 /**
  * 직군 필터 컴포넌트 (사이드바 스타일)
  */
-const JobFilter: React.FC<JobFilterProps> = ({ 
+const JobFilter = ({ 
   selectedRoles, 
   onRoleToggle, 
   onCategoryAllToggle,
   isFilterOpen, 
   // onToggleFilter 
-}) => {
+}: JobFilterProps) => {
   return (
     <aside className="job-filter-sidebar" 
         style={{ // 임시 스타일: JobFilter.jsx와 유사하게 사이드바 형태 유지

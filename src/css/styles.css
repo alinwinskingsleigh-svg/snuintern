@@ -94,11 +94,6 @@ button {
   transition: background-color 0.2s, transform 0.1s;
 }
 
-button:hover {
-  background-color: #3b5bdb;
-  transform: translateY(-1px);
-}
-
 .password-wrapper {
   position: relative;
   margin: 12px 0;

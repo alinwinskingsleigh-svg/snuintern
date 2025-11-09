@@ -15,7 +15,7 @@ interface PostCardProps {
   refreshPosts: () => void; 
 }
 
-const PostCard: React.FC<PostCardProps> = ({ post, onLoginRequired, refreshPosts }) => {
+const PostCard = ({ post, onLoginRequired, refreshPosts }: PostCardProps) => {
   // Post 객체의 isBookmarked 상태를 따라가지만, Optimistic UI를 위해 로컬 상태도 사용
   const [isBookmarked, setIsBookmarked] = useState(post.isBookmarked);
   // const { isAuthenticated } = useAuth(); // TODO: 실제 인증 훅 사용
@@ -78,7 +78,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onLoginRequired, refreshPosts
             isBookmarked ? 'post-card__bookmark-button--bookmarked' : ''
           }`}
         >
-          {isBookmarked ? '★' : '☆'}
+          {/* 별 아이콘은 이제 PostCard.css에서 ::before 가상 요소를 통해 렌더링됩니다. */}
         </button>
       </div>
 
