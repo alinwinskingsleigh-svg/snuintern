@@ -35,7 +35,7 @@ export interface GetPostsResponse {
  * ✅ 'positionTypes'로 수정 (API 명세에 맞춤)
  */
 export interface GetPostsParams {
-  positions?: string[] | null; // ✅ positions → positionTypes로 수정
+  positionTypes?: string[] | null;
   isActive?: boolean | null;
   order?: 0 | 1 | null;
   domains?: string[] | null;

@@ -58,11 +58,18 @@ const PostCard = ({ post, onLoginRequired, refreshPosts }: PostCardProps) => {
 
   // 마감일 D-Day 계산
   const endDate = new Date(post.employmentEndDate);
-  const today = new Date();
+  const today = new Date(); // 오늘 날짜
+  // 시간은 제외하고 날짜만 비교하기 위해 자정으로 설정
+  endDate.setHours(0, 0, 0, 0);
+  today.setHours(0, 0, 0, 0);
+
   const diffTime = endDate.getTime() - today.getTime();
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  const dDay = diffDays > 0 ? `D-${diffDays}` : '마감';
-
+  
+  // dDay 텍스트를 조건에 따라 다르게 설정
+  const dDayText = diffDays < 0 ? '마감' 
+                 : diffDays === 0 ? '오늘 마감' 
+                 : `마감까지 D-${diffDays}`;
   const domainLabel = DOMAINS.find(d => d.value === post.domain)?.label || post.domain;
 
   return (
@@ -85,7 +92,7 @@ const PostCard = ({ post, onLoginRequired, refreshPosts }: PostCardProps) => {
       <h3 className="post-card__title">{post.positionTitle}</h3>
       <div className="post-card__domain">{domainLabel}</div>
       <p className="post-card__company-name">{post.companyName}</p>
-      <p className="post-card__d-day">마감까지 {dDay}</p>
+      <p className="post-card__d-day">{dDayText}</p>
       <p className="post-card__slogan">{post.slogan}</p>
     </div>
   );

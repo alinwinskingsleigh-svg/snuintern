@@ -14,7 +14,7 @@ const getInitialState = (key: keyof GetPostsParams, defaultValue: any): any => {
   const searchParams = new URLSearchParams(window.location.search);
   
   // 'positionTypes' (직군) 또는 'domains' (업종)는 배열(getAll)로 읽어옴
-  if (key === 'positions' || key === 'domains') {
+  if (key === 'positionTypes' || key === 'domains') {
     const urlParams = searchParams.getAll(key);
     if (urlParams.length > 0) return urlParams;
   } else {
@@ -48,7 +48,7 @@ export function useJobFilter() {
   
   // 💡 1. 상태 초기화 (API 키 'positionTypes'로 localStorage/URL에서 읽어옴)
   const [selectedRoles, setSelectedRoles] = useState<PositionValue[]>(() => 
-    getInitialState('positions', []) as PositionValue[]
+    getInitialState('positionTypes', []) as PositionValue[]
   );
   const [selectedDomains, setSelectedDomains] = useState<string[]>(() => 
     getInitialState('domains', []) as string[]
@@ -63,7 +63,7 @@ export function useJobFilter() {
   // 💡 2. localStorage 저장 (API 키 'positionTypes'로 저장)
   useEffect(() => {
     const filterState = {
-      positions: selectedRoles, // ⬅️ 'positionTypes' 키 사용
+      positionTypes: selectedRoles,
       domains: selectedDomains,
       isActive,
       order
