@@ -1,7 +1,7 @@
 // src/constants/post.ts
 
 // 직무 카테고리 (API 파라미터 값)
- const POSITION_VALUES = {
+const POSITION_VALUES = {
   FRONTEND: 'FRONT',
   BACKEND: 'BACKEND',
   APP: 'APP',
@@ -55,4 +55,3 @@ export const DOMAINS = [
   { value: 'B2B', label: 'B2B' },
   { value: 'OTHERS', label: '기타' },
 ] as const;
-

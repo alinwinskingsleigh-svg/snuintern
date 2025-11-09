@@ -1,5 +1,4 @@
 // src/components/JobFilter.tsx
-import React from 'react';
 import { POSITION_CATEGORIES } from '../constants/post';
 import type { PositionCategoryKey, PositionValue } from '../constants/post';
 
