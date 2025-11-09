@@ -6,7 +6,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import LandingPage from './pages/LandingPage';
 import type { User } from './types/user';
-import './styles.css';
+import './css/styles.css';
 
 const App: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
