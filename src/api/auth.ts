@@ -1,5 +1,4 @@
-const BASE_URL = "https://api-internhasha.wafflestudio.com";
-
+const BASE_URL = 'https://api-internhasha.wafflestudio.com';
 
 import type { User } from '../types/user';
 
