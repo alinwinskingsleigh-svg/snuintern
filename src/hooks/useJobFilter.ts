@@ -13,7 +13,7 @@ const getInitialState = (key: keyof GetPostsParams, defaultValue: any): any => {
   // 1순위: URL 쿼리 파라미터
   const searchParams = new URLSearchParams(window.location.search);
   
-  // 'positions' (직군) 또는 'domains' (업종)는 배열(getAll)로 읽어옴
+  // 'positionTypes' (직군) 또는 'domains' (업종)는 배열(getAll)로 읽어옴
   if (key === 'positionTypes' || key === 'domains') {
     const urlParams = searchParams.getAll(key);
     if (urlParams.length > 0) return urlParams;
@@ -31,7 +31,7 @@ const getInitialState = (key: keyof GetPostsParams, defaultValue: any): any => {
   const stored = localStorage.getItem('filterState');
   if (stored) {
     const parsed = JSON.parse(stored);
-    // 💡 여기서 'key'는 'positions'임
+    // 💡 여기서 'key'는 'positionTypes'임
     return parsed[key] !== undefined && parsed[key] !== null ? parsed[key] : defaultValue;
   }
   
@@ -41,12 +41,12 @@ const getInitialState = (key: keyof GetPostsParams, defaultValue: any): any => {
 
 /**
  * 직무 및 상단 필터 로직을 관리하는 커스텀 훅
- * (변수명: selectedRoles / API 파라미터 키: positions)
+ * (변수명: selectedRoles / API 파라미터 키: positionTypes)
  */
 export function useJobFilter() {
   const [searchParams, setSearchParams] = useSearchParams();
   
-  // 💡 1. 상태 초기화 (API 키 'positions'로 localStorage/URL에서 읽어옴)
+  // 💡 1. 상태 초기화 (API 키 'positionTypes'로 localStorage/URL에서 읽어옴)
   const [selectedRoles, setSelectedRoles] = useState<PositionValue[]>(() => 
     getInitialState('positionTypes', []) as PositionValue[]
   );
@@ -60,10 +60,10 @@ export function useJobFilter() {
     getInitialState('order', 0)
   );
 
-  // 💡 2. localStorage 저장 (API 키 'positions'로 저장)
+  // 💡 2. localStorage 저장 (API 키 'positionTypes'로 저장)
   useEffect(() => {
     const filterState = {
-      positionTypes: selectedRoles, // ⬅️ 'positions' 키 사용
+      positionTypes: selectedRoles, // ⬅️ 'positionTypes' 키 사용
       domains: selectedDomains,
       isActive,
       order
@@ -72,7 +72,7 @@ export function useJobFilter() {
   }, [selectedRoles, selectedDomains, isActive, order]);
 
   /**
-   * 💡 3. URL 업데이트 함수 (API 키 'positions'로 업데이트)
+   * 💡 3. URL 업데이트 함수 (API 키 'positionTypes'로 업데이트)
    * 모든 필터 핸들러는 이 함수를 호출하여 URL을 변경합니다.
    * (react-week5 예시의 updateFiltersInUrl 참조)
    */
@@ -85,7 +85,7 @@ export function useJobFilter() {
   ) => {
     const params = new URLSearchParams(searchParams);
 
-    // Positions (API 키 'positions' 사용)
+    // positionTypes (API 키 'positionTypes' 사용)
     params.delete('positionTypes'); 
     newRoles.forEach(role => params.append('positionTypes', role));
 
