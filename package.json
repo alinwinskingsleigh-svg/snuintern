@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "biome lint .",
     "check:types": "tsc",
-    "check:format": "biome check .",
+    "check:format": "biome check --diagnostic-level=warn .",
+    "fix:format": "biome check --apply .",
     "check:unused": "knip",
     "check-all": "yarn check:types && yarn check:format && yarn check:unused"
   },

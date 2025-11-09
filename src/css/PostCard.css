@@ -48,7 +48,7 @@
 
 /* 기본 상태 (빈 별) */
 .post-card__bookmark-button::before {
-  content: '☆';
+  content: "☆";
 }
 
 /* Hover 상태 (꽉 찬 파란 별) */
@@ -58,7 +58,7 @@
 }
 
 .post-card__bookmark-button:hover::before {
-  content: '★';
+  content: "★";
 }
 
 /* 찜된 상태 (꽉 찬 노란 별) */
@@ -67,7 +67,7 @@
 }
 
 .post-card__bookmark-button--bookmarked::before {
-  content: '★';
+  content: "★";
 }
 
 /* focus 테두리 제거 */

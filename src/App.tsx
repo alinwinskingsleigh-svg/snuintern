@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { getMe, logout } from './api/auth';
 import Navbar from './components/Navbar';
+import LandingPage from './pages/LandingPage';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import LandingPage from './pages/LandingPage';
 import type { User } from './types/user';
 import './css/styles.css';
 

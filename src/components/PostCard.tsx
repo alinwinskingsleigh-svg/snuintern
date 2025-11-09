@@ -1,7 +1,7 @@
 // src/components/PostCard.tsx
 import React, { useState } from 'react';
-import type { Post } from '../types/post';
 import { bookmarkPost, unbookmarkPost } from '../api/post_api';
+import type { Post } from '../types/post';
 import '../css/PostCard.css';
 import { DOMAINS } from '../constants/post';
 // TODO: 로그인 상태를 확인하는 훅 (예: useAuth)이 있다고 가정합니다.
@@ -10,9 +10,9 @@ import { DOMAINS } from '../constants/post';
 interface PostCardProps {
   post: Post;
   // 찜하기 버튼 클릭 시 로그인 필요 알림을 외부에 전달하는 핸들러
-  onLoginRequired: () => void; 
+  onLoginRequired: () => void;
   // 찜하기 성공/실패 후 목록을 새로고침할 필요가 있음을 외부에 알리는 핸들러
-  refreshPosts: () => void; 
+  refreshPosts: () => void;
 }
 
 const PostCard = ({ post, onLoginRequired, refreshPosts }: PostCardProps) => {
@@ -21,7 +21,7 @@ const PostCard = ({ post, onLoginRequired, refreshPosts }: PostCardProps) => {
   // const { isAuthenticated } = useAuth(); // TODO: 실제 인증 훅 사용
 
   // 임시: localStorage에 token이 있으면 로그인된 것으로 간주 (usePosts.js 참고)
-  const isAuthenticated = !!localStorage.getItem('token'); 
+  const isAuthenticated = !!localStorage.getItem('token');
 
   // 찜하기 핸들러
   const handleBookmarkToggle = async () => {
@@ -30,7 +30,7 @@ const PostCard = ({ post, onLoginRequired, refreshPosts }: PostCardProps) => {
       onLoginRequired();
       return;
     }
-    
+
     // Optimistic UI 업데이트: 로컬 상태 먼저 변경
     const newBookmarkStatus = !isBookmarked;
     setIsBookmarked(newBookmarkStatus);
@@ -43,12 +43,14 @@ const PostCard = ({ post, onLoginRequired, refreshPosts }: PostCardProps) => {
         // 찜하기 해제: DELETE api/post/{post_id}/bookmark
         await unbookmarkPost(post.id);
       }
-      
+
       // 성공 후 목록 새로고침 (데이터 refetch)
       refreshPosts();
-
     } catch (error) {
-      console.error(`Failed to toggle bookmark status for post ${post.id}`, error);
+      console.error(
+        `Failed to toggle bookmark status for post ${post.id}`,
+        error
+      );
       // 실패 시 원래 상태로 롤백
       setIsBookmarked(!newBookmarkStatus);
       alert('찜하기/해제에 실패했습니다. 다시 시도해주세요.');
@@ -65,12 +67,16 @@ const PostCard = ({ post, onLoginRequired, refreshPosts }: PostCardProps) => {
 
   const diffTime = endDate.getTime() - today.getTime();
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  
+
   // dDay 텍스트를 조건에 따라 다르게 설정
-  const dDayText = diffDays < 0 ? '마감' 
-                 : diffDays === 0 ? '오늘 마감' 
-                 : `마감까지 D-${diffDays}`;
-  const domainLabel = DOMAINS.find(d => d.value === post.domain)?.label || post.domain;
+  const dDayText =
+    diffDays < 0
+      ? '마감'
+      : diffDays === 0
+        ? '오늘 마감'
+        : `마감까지 D-${diffDays}`;
+  const domainLabel =
+    DOMAINS.find((d) => d.value === post.domain)?.label || post.domain;
 
   return (
     <div className="post-card">

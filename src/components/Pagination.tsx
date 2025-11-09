@@ -10,7 +10,11 @@ interface PaginationProps {
 
 const PAGE_GROUP_SIZE = 5;
 
-const Pagination: React.FC<PaginationProps> = ({ paginator, currentPage, setPage }) => {
+const Pagination: React.FC<PaginationProps> = ({
+  paginator,
+  currentPage,
+  setPage,
+}) => {
   if (!paginator || paginator.lastPage <= 1) {
     return null;
   }
@@ -18,40 +22,41 @@ const Pagination: React.FC<PaginationProps> = ({ paginator, currentPage, setPage
   // 예시 코드(PostIndex.jsx) 로직: 5개씩 페이지 그룹화
   const startPage = Math.floor(currentPage / PAGE_GROUP_SIZE) * PAGE_GROUP_SIZE;
   // lastPage는 총 페이지 수 (1부터 시작), 예시 코드에서는 lastPage - 1이 마지막 인덱스
-  const maxPageIndex = paginator.lastPage - 1; 
+  const maxPageIndex = paginator.lastPage - 1;
 
   const hasPrev = currentPage > 0;
   const hasNext = currentPage < maxPageIndex;
-  
+
   // 이전 그룹으로 이동 (예시 코드와 달리 그룹 이동 버튼 추가)
   const handlePrevGroup = () => {
     setPage(Math.max(0, startPage - PAGE_GROUP_SIZE));
-  }
-  
+  };
+
   // 다음 그룹으로 이동
   const handleNextGroup = () => {
     setPage(Math.min(maxPageIndex, startPage + PAGE_GROUP_SIZE));
-  }
-  
+  };
+
   // 5개 단위로 페이지 번호 렌더링
   const pageNumbers = Array.from({ length: PAGE_GROUP_SIZE }, (_, i) => {
     const pageNum = startPage + i;
     const isVisible = pageNum <= maxPageIndex;
-    
+
     if (!isVisible) return null;
-    
+
     return (
       <button
         key={pageNum}
         onClick={() => setPage(pageNum)}
         // TODO: CSS 파일이 없으므로 인라인 스타일로 임시 적용
         style={{
-            margin: '0 5px',
-            padding: '5px 10px',
-            border: currentPage === pageNum ? '1px solid #007bff' : '1px solid #ddd',
-            backgroundColor: currentPage === pageNum ? '#007bff' : 'white',
-            color: currentPage === pageNum ? 'white' : 'black',
-            cursor: 'pointer'
+          margin: '0 5px',
+          padding: '5px 10px',
+          border:
+            currentPage === pageNum ? '1px solid #007bff' : '1px solid #ddd',
+          backgroundColor: currentPage === pageNum ? '#007bff' : 'white',
+          color: currentPage === pageNum ? 'white' : 'black',
+          cursor: 'pointer',
         }}
       >
         {pageNum + 1}
@@ -60,9 +65,11 @@ const Pagination: React.FC<PaginationProps> = ({ paginator, currentPage, setPage
   }).filter(Boolean);
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '30px' }}>
+    <div
+      style={{ display: 'flex', justifyContent: 'center', marginTop: '30px' }}
+    >
       {/* 이전 페이지 버튼 */}
-      <button 
+      <button
         onClick={() => hasPrev && setPage(currentPage - 1)}
         disabled={!hasPrev}
         style={{ marginRight: '10px' }}
@@ -74,7 +81,7 @@ const Pagination: React.FC<PaginationProps> = ({ paginator, currentPage, setPage
       {pageNumbers}
 
       {/* 다음 페이지 버튼 */}
-      <button 
+      <button
         onClick={() => hasNext && setPage(currentPage + 1)}
         disabled={!hasNext}
         style={{ marginLeft: '10px' }}
@@ -83,6 +90,6 @@ const Pagination: React.FC<PaginationProps> = ({ paginator, currentPage, setPage
       </button>
     </div>
   );
-}
+};
 
 export default Pagination;

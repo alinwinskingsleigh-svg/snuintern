@@ -11,7 +11,7 @@ interface LoginRequiredModalProps {
  */
 const LoginRequiredModal: React.FC<LoginRequiredModalProps> = ({ onClose }) => {
   const navigate = useNavigate();
-  
+
   // TODO: CSS 파일이 없으므로 인라인 스타일로 임시 적용
   const modalStyle: React.CSSProperties = {
     position: 'fixed',
@@ -23,7 +23,7 @@ const LoginRequiredModal: React.FC<LoginRequiredModalProps> = ({ onClose }) => {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 1000
+    zIndex: 1000,
   };
 
   const contentStyle: React.CSSProperties = {
@@ -32,15 +32,15 @@ const LoginRequiredModal: React.FC<LoginRequiredModalProps> = ({ onClose }) => {
     borderRadius: '8px',
     textAlign: 'center',
     maxWidth: '400px',
-    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
   };
-  
+
   const buttonStyle: React.CSSProperties = {
     padding: '10px 20px',
     margin: '5px',
     border: 'none',
     borderRadius: '4px',
-    cursor: 'pointer'
+    cursor: 'pointer',
   };
 
   return (
@@ -48,17 +48,21 @@ const LoginRequiredModal: React.FC<LoginRequiredModalProps> = ({ onClose }) => {
       <div style={contentStyle} onClick={(e) => e.stopPropagation()}>
         <h3 style={{ marginTop: 0 }}>찜하기를 하려면 로그인이 필요해요</h3>
         <p>계정이 없으시다면 지금 바로 회원가입해보세요</p>
-        
+
         <div style={{ marginTop: '20px' }}>
-          <button 
+          <button
             onClick={() => navigate('/login')}
             style={{ ...buttonStyle, backgroundColor: '#333', color: 'white' }}
           >
             로그인하기
           </button>
-          <button 
+          <button
             onClick={onClose}
-            style={{ ...buttonStyle, backgroundColor: '#f0f0f0', color: '#333' }}
+            style={{
+              ...buttonStyle,
+              backgroundColor: '#f0f0f0',
+              color: '#333',
+            }}
           >
             뒤로 가기
           </button>

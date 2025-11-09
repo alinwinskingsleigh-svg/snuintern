@@ -12,7 +12,8 @@ export const POSITION_VALUES = {
   MARKETING: 'MARKETING',
 } as const;
 
-export type PositionValue = typeof POSITION_VALUES[keyof typeof POSITION_VALUES];
+export type PositionValue =
+  (typeof POSITION_VALUES)[keyof typeof POSITION_VALUES];
 
 // 직무 필터 UI 매핑
 export const POSITION_CATEGORIES = {
@@ -41,10 +42,11 @@ export const POSITION_CATEGORIES = {
 } as const;
 
 // 모든 개발 직군 값 (개발 전체 선택 시 사용)
-export const ALL_DEV_POSITIONS = POSITION_CATEGORIES.개발.roles.map(r => r.value);
+export const ALL_DEV_POSITIONS = POSITION_CATEGORIES.개발.roles.map(
+  (r) => r.value
+);
 
 export type PositionCategoryKey = keyof typeof POSITION_CATEGORIES;
-
 
 // 도메인 (업종) 목록 (API 파라미터 값)
 export const DOMAINS = [
@@ -59,4 +61,4 @@ export const DOMAINS = [
   { value: 'OTHERS', label: '기타' },
 ] as const;
 
-export const DOMAIN_VALUES = DOMAINS.map(d => d.value);
+export const DOMAIN_VALUES = DOMAINS.map((d) => d.value);
