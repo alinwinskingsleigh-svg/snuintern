@@ -6,10 +6,10 @@ export const POSITION_VALUES = {
   BACKEND: 'BACKEND',
   APP: 'APP',
   DATA: 'DATA',
+  OTHERS: 'OTHERS', // 개발 기타 분야
   DESIGN: 'DESIGN',
   PLANNER: 'PLANNER',
   MARKETING: 'MARKETING',
-  OTHERS: 'OTHERS', // 개발 기타 분야
 } as const;
 
 export type PositionValue = typeof POSITION_VALUES[keyof typeof POSITION_VALUES];
