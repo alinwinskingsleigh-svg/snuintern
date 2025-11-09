@@ -1,4 +1,4 @@
-const BASE_URL = 'https://api-internhasha.wafflestudio.com';
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
 import type { User } from '../types/user';
 
@@ -17,14 +17,11 @@ interface SignupData {
 
 // signup 함수
 export async function signup(data: SignupData) {
-  const response = await fetch(
-    'https://api-internhasha.wafflestudio.com/api/auth/user',
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    }
-  );
+  const response = await fetch(`${BASE_URL}/api/auth/user`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
 
   // 성공 / 실패 모두 JSON으로 처리
   const result = await response.json().catch(() => ({}));
