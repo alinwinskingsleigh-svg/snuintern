@@ -1,5 +1,5 @@
 // src/components/PostCard.tsx
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { bookmarkPost, unbookmarkPost } from '../api/post_api';
 import type { Post } from '../types/post';
 import '../css/PostCard.css';

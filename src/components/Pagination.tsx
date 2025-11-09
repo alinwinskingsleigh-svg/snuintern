@@ -27,16 +27,6 @@ const Pagination: React.FC<PaginationProps> = ({
   const hasPrev = currentPage > 0;
   const hasNext = currentPage < maxPageIndex;
 
-  // 이전 그룹으로 이동 (예시 코드와 달리 그룹 이동 버튼 추가)
-  const handlePrevGroup = () => {
-    setPage(Math.max(0, startPage - PAGE_GROUP_SIZE));
-  };
-
-  // 다음 그룹으로 이동
-  const handleNextGroup = () => {
-    setPage(Math.min(maxPageIndex, startPage + PAGE_GROUP_SIZE));
-  };
-
   // 5개 단위로 페이지 번호 렌더링
   const pageNumbers = Array.from({ length: PAGE_GROUP_SIZE }, (_, i) => {
     const pageNum = startPage + i;

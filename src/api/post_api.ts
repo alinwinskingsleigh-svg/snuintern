@@ -26,7 +26,17 @@ export const getPosts = async (
 ): Promise<GetPostsResponse> => {
   // 쿼리 파라미터 인코딩
   const queryString = encodeQueryParams({
-    params: params as Record<string, any>,
+    params: params as unknown as Record<
+      string,
+      | string
+      | number
+      | boolean
+      | string[]
+      | number[]
+      | boolean[]
+      | null
+      | undefined
+    >,
   });
 
   // 💡 fetch API 사용
