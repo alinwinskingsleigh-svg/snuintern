@@ -35,7 +35,6 @@ const App: React.FC = () => {
       <Navbar user={user} onLogout={handleLogout} />
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/home" element={<Home user={user} />} />
         <Route
           path="/login"
           element={<Login setUser={setUser} setToken={setToken} />}
