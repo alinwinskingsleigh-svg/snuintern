@@ -2,15 +2,7 @@
 import type { GetPostsParams, GetPostsResponse } from '../types/post';
 import { encodeQueryParams } from '../utils/query';
 
-// =========================================================================
-// 💡 Vercel 배포 문제 해결을 위한 수정 사항 💡
-// Vercel에서 404가 나는 이유는 로컬의 proxy 설정이 배포 환경에서 작동하지 않기 때문입니다.
-// 따라서, 환경 변수(VITE_API_BASE_URL)를 사용하여 절대 경로를 명시해 줍니다.
-// =========================================================================
-
-// VITE_API_BASE_URL 환경 변수에서 기본 URL을 가져옵니다.
-// Vercel 대시보드에 'VITE_API_BASE_URL'을 'https://api-internhasha.wafflestudio.com'으로 설정해야 합니다.
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
+const API_BASE_URL = 'https://api-internhasha.wafflestudio.com';
 
 // 모든 API 요청에 공통으로 필요한 헤더(JWT 포함)를 구성하는 유틸리티 함수입니다.
 const getAuthHeaders = (): HeadersInit => {

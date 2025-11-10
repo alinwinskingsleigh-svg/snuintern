@@ -45,11 +45,16 @@ export function usePosts(
         setPosts(data.posts);
         setPaginator(data.paginator);
       } catch (err: unknown) {
-        // 💡 예시 코드(usePosts.js)의 401 토큰 만료 처리 로직을 반영합니다.
-        // fetch는 401이 발생해도 에러를 던지지 않으므로, API 응답 코드를 확인해야 합니다.
-        // 다만, 여기서는 api/post.ts에서 이미 response.ok를 체크하므로,
-        // 토큰 만료 시 서버에서 에러 메시지를 던져주거나,
-        // 또는 usePosts.js 예시처럼 API 인스턴스에서 토큰 만료 시 새로고침하도록 가정합니다.
+        // 💡 401 Unauthorized 에러 처리 로직을 추가합니다.
+        // api/post_api.ts에서 던진 에러 메시지에 "401"이 포함되어 있는지 확인합니다.
+        if (err instanceof Error && err.message.includes('401')) {
+          // 토큰이 만료되었거나 유효하지 않으므로, 로컬 스토리지에서 토큰을 제거합니다.
+          localStorage.removeItem('token');
+          // 사용자에게 알리고 페이지를 새로고침하여 로그인 상태를 초기화합니다.
+          alert('세션이 만료되었습니다. 다시 로그인해주세요.');
+          window.location.reload(); // 페이지 새로고침
+          return; // 추가적인 에러 상태 업데이트를 막기 위해 여기서 함수를 종료합니다.
+        }
 
         // `unknown` 타입의 에러를 안전하게 처리합니다.
         if (err instanceof Error) {
