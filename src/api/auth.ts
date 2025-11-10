@@ -1,4 +1,4 @@
-const BASE_URL = 'https://api-internhasha.wafflestudio.com';
+const API_BASE_URL = 'https://api-internhasha.wafflestudio.com';
 
 import type { User } from '../types/user';
 
@@ -17,7 +17,7 @@ interface SignupData {
 
 // signup 함수
 export async function signup(data: SignupData) {
-  const response = await fetch(`${BASE_URL}/api/auth/user`, {
+  const response = await fetch(`${API_BASE_URL}/api/auth/user`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
@@ -34,7 +34,7 @@ export async function signup(data: SignupData) {
 }
 
 export const login = async (email: string, password: string) => {
-  const res = await fetch(`${BASE_URL}/api/auth/user/session`, {
+  const res = await fetch(`${API_BASE_URL}/api/auth/user/session`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password }),
@@ -43,14 +43,14 @@ export const login = async (email: string, password: string) => {
 };
 
 export const getMe = async (token: string): Promise<User> => {
-  const res = await fetch(`${BASE_URL}/api/auth/me`, {
+  const res = await fetch(`${API_BASE_URL}/api/auth/me`, {
     headers: { Authorization: `Bearer ${token}` },
   });
   return res.json();
 };
 
 export const logout = async (token: string) => {
-  await fetch(`${BASE_URL}/api/auth/user/session`, {
+  await fetch(`${API_BASE_URL}/api/auth/user/session`, {
     method: 'DELETE',
     headers: { Authorization: `Bearer ${token}` },
   });
