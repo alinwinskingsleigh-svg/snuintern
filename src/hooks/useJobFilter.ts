@@ -13,10 +13,10 @@ export function useJobFilter() {
 
   // 💡 복잡한 getInitialState 함수 대신, 각 상태를 명시적으로 초기화합니다.
   const [selectedRoles, setSelectedRoles] = useState<PositionValue[]>(() => {
-    const urlRoles = searchParams.getAll('positionTypes') as PositionValue[];
+    const urlRoles = searchParams.getAll('roles') as PositionValue[];
     if (urlRoles.length > 0) return urlRoles;
     const stored = JSON.parse(localStorage.getItem('filterState') || '{}');
-    return stored.positionTypes || [];
+    return stored.roles || [];
   });
 
   const [selectedDomains, setSelectedDomains] = useState<string[]>(() => {
@@ -44,7 +44,7 @@ export function useJobFilter() {
   // 💡 2. localStorage 저장 (API 키 'positionTypes'로 저장)
   useEffect(() => {
     const filterState = {
-      positionTypes: selectedRoles, // 'positions' -> 'positionTypes'
+      roles: selectedRoles,
       domains: selectedDomains,
       isActive,
       order,
@@ -67,9 +67,9 @@ export function useJobFilter() {
     ) => {
       const params = new URLSearchParams(searchParams);
 
-      // positionTypes (API 키 'positionTypes' 사용)
-      params.delete('positionTypes');
-      newRoles.forEach((role) => params.append('positionTypes', role));
+      // roles (API 키 'roles' 사용)
+      params.delete('roles');
+      newRoles.forEach((role) => params.append('roles', role));
 
       // Domains
       params.delete('domains');

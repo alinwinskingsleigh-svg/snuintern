@@ -35,7 +35,7 @@ export function usePosts(
       try {
         void bookmarkRefreshKey; // bookmarkRefreshKey 사용 방지
         const data = await getPosts({
-          positionTypes: selectedRoles.length > 0 ? selectedRoles : null,
+          roles: selectedRoles.length > 0 ? selectedRoles : null,
           domains: selectedDomains.length > 0 ? selectedDomains : null,
           isActive: isActive,
           order: order,
