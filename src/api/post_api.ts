@@ -27,10 +27,7 @@ export const getPosts = async (
   params: GetPostsParams
 ): Promise<GetPostsResponse> => {
   // 쿼리 파라미터 인코딩
-  const queryString = encodeQueryParams({
-    params: params,
-  });
-
+  const queryString = encodeQueryParams({ params });
   // 💡 API_BASE_URL을 사용해 절대 경로로 요청합니다.
   const response = await fetch(`${API_BASE_URL}/api/post?${queryString}`, {
     method: 'GET',

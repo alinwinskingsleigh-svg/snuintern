@@ -32,7 +32,7 @@ export interface GetPostsResponse {
 
 /**
  * 필터링에 사용될 파라미터 타입 정의 (API 요청 시 사용)
- * ✅ 'positionTypes'로 수정 (API 명세에 맞춤)
+ * ✅ 'roles'로 수정 (API 명세에 맞춤)
  */
 export interface GetPostsParams {
   [key: string]:
@@ -44,7 +44,7 @@ export interface GetPostsParams {
     | boolean[]
     | null
     | undefined;
-  positionTypes?: string[] | null;
+  roles?: string[] | null;
   isActive?: boolean | null;
   order?: 0 | 1 | null;
   domains?: string[] | null;
