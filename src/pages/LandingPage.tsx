@@ -18,8 +18,6 @@ const LandingPage: React.FC = () => {
   const [bookmarkRefreshKey, setBookmarkRefreshKey] = useState(0);
 
   const [isFilterOpen, setIsFilterOpen] = useState(true);
-  // ✅ 필터 열림/닫힘 상태 추가
-  const [isFilterOpen, setIsFilterOpen] = useState(true);
 
   const toggleFilter = useCallback(() => {
     setIsFilterOpen((prev) => !prev);
