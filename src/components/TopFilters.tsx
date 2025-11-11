@@ -105,7 +105,9 @@ const TopFilters = ({
         {/* 1. 모집 상태 드롭다운 */}
         <div className="filter-dropdown">
           <button
-            className={`filter-dropdown-toggle status-toggle ${isStatusChanged ? 'changed' : ''}`}
+            className={`filter-dropdown-toggle status-toggle ${
+              isStatusChanged ? 'changed' : ''
+            }`}
             onClick={() => toggleDropdown(setIsStatusOpen, isStatusOpen)}
           >
             <span>{getStatusLabel()}</span>
@@ -147,7 +149,9 @@ const TopFilters = ({
         {/* 2. 업종 (도메인) 드롭다운 */}
         <div className="filter-dropdown">
           <button
-            className={`filter-dropdown-toggle ${isDomainsChanged ? 'changed' : ''}`}
+            className={`filter-dropdown-toggle ${
+              isDomainsChanged ? 'changed' : ''
+            }`}
             onClick={() => toggleDropdown(setIsDomainOpen, isDomainOpen)}
           >
             <span>업종</span>
@@ -196,7 +200,9 @@ const TopFilters = ({
         {/* 3. 정렬 드롭다운 */}
         <div className="filter-dropdown">
           <button
-            className={`filter-dropdown-toggle ${isSortChanged ? 'changed' : ''}`}
+            className={`filter-dropdown-toggle ${
+              isSortChanged ? 'changed' : ''
+            }`}
             onClick={() => toggleDropdown(setIsSortOpen, isSortOpen)}
           >
             <span>{getSortLabel()}</span>

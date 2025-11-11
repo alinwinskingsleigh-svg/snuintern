@@ -1,0 +1,92 @@
+.job-filter-sidebar {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  min-width: 220px;
+  background-color: #fff;
+}
+
+/* 전체가 닫혔을 때(부모 토글) : 콘텐츠 숨김 */
+.job-filter-sidebar.closed .filter-content {
+  display: none;
+}
+
+/* visible/hidden 방식 (display:none 대신 visibility+height으로 transition 유지) */
+.filter-content.hidden {
+  display: none; /* 부모 레벨로도 숨김 처리 가능 */
+}
+.filter-content.visible {
+  display: block;
+}
+
+/* 헤더 */
+.filter-header {
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 4px;
+}
+
+/* 카테고리 헤더 */
+.category-header {
+  width: 100%;
+  text-align: left;
+  background: #f9fafb;
+  border: none;
+  outline: none;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 8px 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+/* 화살표 회전 */
+.chevron {
+  transition: transform 0.25s ease;
+}
+.chevron.open {
+  transform: rotate(180deg);
+}
+
+/* 아코디언 바디: max-height transition 방식 */
+.category-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease, padding 0.35s ease;
+  padding: 0 8px;
+  background: white;
+}
+
+/* 충분히 큰 max-height로 열림을 보장 (내용에 따라 더 늘릴 수 있음) */
+.category-body.open {
+  max-height: 400px;
+  padding: 8px;
+}
+
+/* 내부 아이템 스타일 */
+.select-all {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  font-size: 13px;
+  color: #2563eb;
+}
+
+.role-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-left: 6px;
+}
+
+.role-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
