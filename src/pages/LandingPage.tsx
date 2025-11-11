@@ -19,6 +19,12 @@ const LandingPage: React.FC = () => {
   // ✅ 찜하기 새로고침을 위한 키 추가
   const [bookmarkRefreshKey, setBookmarkRefreshKey] = useState(0);
 
+  const [isFilterOpen, setIsFilterOpen] = useState(true);
+  const toggleFilter = useCallback(() => {
+    setIsFilterOpen((prev) => !prev);
+  }, []);
+
+
   useEffect(() => {
     const currentParams = Object.fromEntries(searchParams.entries());
     if (!currentParams.page) {
@@ -57,7 +63,7 @@ const LandingPage: React.FC = () => {
     isActive,
     order,
     page,
-    bookmarkRefreshKey // ✅ 추가
+    bookmarkRefreshKey
   );
 
   // ✅ 찜하기 후 데이터 새로고침 함수
@@ -83,7 +89,8 @@ const LandingPage: React.FC = () => {
             selectedRoles={selectedRoles}
             onRoleToggle={handleRoleToggle}
             onCategoryAllToggle={handleCategoryAllToggle}
-            isFilterOpen={true}
+            isFilterOpen={isFilterOpen}
+            onToggleFilter={toggleFilter}
           />
         </div>
 
@@ -119,7 +126,7 @@ const LandingPage: React.FC = () => {
               <PostCard
                 key={post.id}
                 post={post}
-                refreshPosts={refreshPosts} // ✅ refreshPosts 전달
+                refreshPosts={refreshPosts} 
                 onLoginRequired={() => setIsModalOpen(true)}
               />
             ))}
@@ -132,10 +139,9 @@ const LandingPage: React.FC = () => {
           />
         </div>
       </div>
-
-      {isModalOpen && (
-        <LoginRequiredModal onClose={() => setIsModalOpen(false)} />
-      )}
+      {
+      isModalOpen && <LoginRequiredModal onClose={() => setIsModalOpen(false)} />
+      }
     </div>
   );
 };

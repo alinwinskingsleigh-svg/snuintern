@@ -7,7 +7,7 @@ interface JobFilterProps {
   onRoleToggle: (role: PositionValue) => void;
   onCategoryAllToggle: (categoryKey: PositionCategoryKey) => void;
   isFilterOpen: boolean;
-  // onToggleFilter: () => void; // 예시 코드에 있었으나, 현재는 LandingPage에서 isFilterOpen을 직접 관리하지 않으므로 생략 (필요하다면 추가 가능)
+  onToggleFilter: () => void; // 예시 코드에 있었으나, 현재는 LandingPage에서 isFilterOpen을 직접 관리하지 않으므로 생략 (필요하다면 추가 가능)
 }
 
 /**
@@ -18,30 +18,37 @@ const JobFilter = ({
   onRoleToggle,
   onCategoryAllToggle,
   isFilterOpen,
-  // onToggleFilter
+  onToggleFilter,
 }: JobFilterProps) => {
   return (
     <aside
       className="job-filter-sidebar"
       style={{
-        // 임시 스타일: JobFilter.jsx와 유사하게 사이드바 형태 유지
         border: '1px solid #ddd',
         borderRadius: '4px',
         padding: '10px',
         minWidth: '200px',
+        background: #fafafa
       }}
     >
       <div
-        // onClick={onToggleFilter} // 토글 버튼 기능 (필요하다면 추가)
+        onClick={onToggleFilter}
         style={{
           padding: '10px 0',
           fontWeight: 'bold',
           display: 'flex',
           justifyContent: 'space-between',
+          cursor: 'pointer'
+          userSelect: 'none'
         }}
       >
         <span>직군 필터</span>
-        <span className={`arrow ${isFilterOpen ? 'open' : ''}`}>▼</span>
+        <span className={`arrow ${isFilterOpen ? 'open' : ''}`}
+        style = {{
+          transition: 'transform 0.3s'
+          transform: isFilterOpen? 'rotate(180deg)' : 'rotate(0deg)',
+        }}
+        >▼</span>
       </div>
 
       {/* isFilterOpen이 true일 때만 내용 표시 (JobFilter.jsx 로직) */}
