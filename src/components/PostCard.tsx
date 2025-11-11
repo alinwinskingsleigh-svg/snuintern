@@ -1,9 +1,9 @@
 // src/components/PostCard.tsx
-import { useState } from 'react';
-import { bookmarkPost, unbookmarkPost } from '../api/post_api';
-import type { Post } from '../types/post';
-import '../css/PostCard.css';
-import { DOMAINS } from '../constants/post';
+import { useState } from "react";
+import { bookmarkPost, unbookmarkPost } from "../api/post_api";
+import type { Post } from "../types/post";
+import "../css/PostCard.css";
+import { DOMAINS } from "../constants/post";
 // TODO: 로그인 상태를 확인하는 훅 (예: useAuth)이 있다고 가정합니다.
 // const useAuth = () => ({ isAuthenticated: !!localStorage.getItem('token') });
 
@@ -21,7 +21,7 @@ const PostCard = ({ post, onLoginRequired, refreshPosts }: PostCardProps) => {
   // const { isAuthenticated } = useAuth(); // TODO: 실제 인증 훅 사용
 
   // 임시: localStorage에 token이 있으면 로그인된 것으로 간주 (usePosts.js 참고)
-  const isAuthenticated = !!localStorage.getItem('token');
+  const isAuthenticated = !!localStorage.getItem("token");
 
   // 찜하기 핸들러
   const handleBookmarkToggle = async () => {
@@ -49,11 +49,11 @@ const PostCard = ({ post, onLoginRequired, refreshPosts }: PostCardProps) => {
     } catch (error) {
       console.error(
         `Failed to toggle bookmark status for post ${post.id}`,
-        error
+        error,
       );
       // 실패 시 원래 상태로 롤백
       setIsBookmarked(!newBookmarkStatus);
-      alert('찜하기/해제에 실패했습니다. 다시 시도해주세요.');
+      alert("찜하기/해제에 실패했습니다. 다시 시도해주세요.");
       refreshPosts(); // 강제 새로고침 (안정성)
     }
   };
@@ -71,9 +71,9 @@ const PostCard = ({ post, onLoginRequired, refreshPosts }: PostCardProps) => {
   // dDay 텍스트를 조건에 따라 다르게 설정
   const dDayText =
     diffDays < 0
-      ? '마감'
+      ? "마감"
       : diffDays === 0
-        ? '오늘 마감'
+        ? "오늘 마감"
         : `마감까지 D-${diffDays}`;
   const domainLabel =
     DOMAINS.find((d) => d.value === post.domain)?.label || post.domain;
@@ -88,7 +88,7 @@ const PostCard = ({ post, onLoginRequired, refreshPosts }: PostCardProps) => {
         <button
           onClick={handleBookmarkToggle}
           className={`post-card__bookmark-button ${
-            isBookmarked ? 'post-card__bookmark-button--bookmarked' : ''
+            isBookmarked ? "post-card__bookmark-button--bookmarked" : ""
           }`}
         >
           {/* 별 아이콘은 이제 PostCard.css에서 ::before 가상 요소를 통해 렌더링됩니다. */}

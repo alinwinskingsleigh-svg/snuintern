@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
-import { getMe, logout } from './api/auth';
-import Navbar from './components/Navbar';
-import LandingPage from './pages/LandingPage';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
-import type { User } from './types/user';
-import './css/styles.css';
+import React, { useEffect, useState } from "react";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { getMe, logout } from "./api/auth";
+import Navbar from "./components/Navbar";
+import LandingPage from "./pages/LandingPage";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import type { User } from "./types/user";
+import "./css/styles.css";
 
 const App: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(
-    localStorage.getItem('token')
+    localStorage.getItem("token"),
   );
 
   useEffect(() => {
@@ -24,10 +24,10 @@ const App: React.FC = () => {
 
   const handleLogout = async () => {
     if (token) await logout(token);
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     setToken(null);
     setUser(null);
-    window.location.href = '/';
+    window.location.href = "/";
   };
 
   return (

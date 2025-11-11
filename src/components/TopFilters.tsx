@@ -1,7 +1,7 @@
 // src/components/TopFilters.tsx
-import React, { useState } from 'react';
-import { DOMAINS } from '../constants/post';
-import '../css/TopFilters.css';
+import React, { useState } from "react";
+import { DOMAINS } from "../constants/post";
+import "../css/TopFilters.css";
 //import type { GetPostsParams } from '../types/post';
 
 interface TopFiltersProps {
@@ -41,15 +41,15 @@ const TopFilters = ({
 
   // 모집상태 라벨 업데이트 (추가 스펙 2: 하나만 선택 가능 필터 표시)
   const getStatusLabel = () => {
-    if (isActive === true) return '모집중';
+    if (isActive === true) return "모집중";
     // isActive === false (마감된 것 포함 전체)도 "모집 상태"로 표시
-    return '모집 상태';
+    return "모집 상태";
   };
 
   // 정렬 라벨 업데이트 (추가 스펙 2: 하나만 선택 가능 필터 표시)
   const getSortLabel = () => {
-    if (order === 1) return '마감순';
-    return '최신순'; // order === 0 (기본값)
+    if (order === 1) return "마감순";
+    return "최신순"; // order === 0 (기본값)
   };
 
   // 도메인 전체 선택/해제 핸들러 (TopFilters.jsx 로직)
@@ -90,7 +90,7 @@ const TopFilters = ({
   // 드롭다운 토글 함수
   const toggleDropdown = (
     setter: React.Dispatch<React.SetStateAction<boolean>>,
-    current: boolean
+    current: boolean,
   ) => {
     // 다른 드롭다운 닫기 로직 (TopFilters.jsx 로직)
     setIsStatusOpen(false);
@@ -105,7 +105,7 @@ const TopFilters = ({
         {/* 1. 모집 상태 드롭다운 */}
         <div className="filter-dropdown">
           <button
-            className={`filter-dropdown-toggle status-toggle ${isStatusChanged ? 'changed' : ''}`}
+            className={`filter-dropdown-toggle status-toggle ${isStatusChanged ? "changed" : ""}`}
             onClick={() => toggleDropdown(setIsStatusOpen, isStatusOpen)}
           >
             <span>{getStatusLabel()}</span>
@@ -147,7 +147,7 @@ const TopFilters = ({
         {/* 2. 업종 (도메인) 드롭다운 */}
         <div className="filter-dropdown">
           <button
-            className={`filter-dropdown-toggle ${isDomainsChanged ? 'changed' : ''}`}
+            className={`filter-dropdown-toggle ${isDomainsChanged ? "changed" : ""}`}
             onClick={() => toggleDropdown(setIsDomainOpen, isDomainOpen)}
           >
             <span>업종</span>
@@ -161,7 +161,7 @@ const TopFilters = ({
                 <input
                   type="checkbox"
                   checked={DOMAINS.every((d) =>
-                    selectedDomains.includes(d.value)
+                    selectedDomains.includes(d.value),
                   )}
                   onChange={handleDomainAllToggle}
                 />
@@ -196,7 +196,7 @@ const TopFilters = ({
         {/* 3. 정렬 드롭다운 */}
         <div className="filter-dropdown">
           <button
-            className={`filter-dropdown-toggle ${isSortChanged ? 'changed' : ''}`}
+            className={`filter-dropdown-toggle ${isSortChanged ? "changed" : ""}`}
             onClick={() => toggleDropdown(setIsSortOpen, isSortOpen)}
           >
             <span>{getSortLabel()}</span>
@@ -238,9 +238,9 @@ const TopFilters = ({
 
       {/* 4. 전체 초기화 버튼 */}
       <button onClick={onResetFilters} className="reset-all-button">
-        <span className="refresh-icon" style={{ marginRight: '5px' }}>
+        <span className="refresh-icon" style={{ marginRight: "5px" }}>
           ↻
-        </span>{' '}
+        </span>{" "}
         초기화
       </button>
     </div>
