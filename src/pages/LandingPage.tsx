@@ -24,7 +24,6 @@ const LandingPage: React.FC = () => {
     setIsFilterOpen((prev) => !prev);
   }, []);
 
-
   useEffect(() => {
     const currentParams = Object.fromEntries(searchParams.entries());
     if (!currentParams.page) {
@@ -126,7 +125,7 @@ const LandingPage: React.FC = () => {
               <PostCard
                 key={post.id}
                 post={post}
-                refreshPosts={refreshPosts} 
+                refreshPosts={refreshPosts}
                 onLoginRequired={() => setIsModalOpen(true)}
               />
             ))}
@@ -139,9 +138,9 @@ const LandingPage: React.FC = () => {
           />
         </div>
       </div>
-      {
-      isModalOpen && <LoginRequiredModal onClose={() => setIsModalOpen(false)} />
-      }
+      {isModalOpen && (
+        <LoginRequiredModal onClose={() => setIsModalOpen(false)} />
+      )}
     </div>
   );
 };

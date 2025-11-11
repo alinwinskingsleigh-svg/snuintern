@@ -28,7 +28,7 @@ const JobFilter = ({
         borderRadius: '4px',
         padding: '10px',
         minWidth: '200px',
-        background: #fafafa
+        background: '#fafafa',
       }}
     >
       <div
@@ -38,17 +38,20 @@ const JobFilter = ({
           fontWeight: 'bold',
           display: 'flex',
           justifyContent: 'space-between',
-          cursor: 'pointer'
-          userSelect: 'none'
+          cursor: 'pointer',
+          userSelect: 'none',
         }}
       >
         <span>직군 필터</span>
-        <span className={`arrow ${isFilterOpen ? 'open' : ''}`}
-        style = {{
-          transition: 'transform 0.3s'
-          transform: isFilterOpen? 'rotate(180deg)' : 'rotate(0deg)',
-        }}
-        >▼</span>
+        <span
+          className={`arrow ${isFilterOpen ? 'open' : ''}`}
+          style={{
+            transition: 'transform 0.3s',
+            transform: isFilterOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+          }}
+        >
+          ▼
+        </span>
       </div>
 
       {/* isFilterOpen이 true일 때만 내용 표시 (JobFilter.jsx 로직) */}
