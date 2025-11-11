@@ -17,9 +17,7 @@ const LandingPage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [bookmarkRefreshKey, setBookmarkRefreshKey] = useState(0);
 
-  // ✅ 필터 열림/닫힘 상태 추가
   const [isFilterOpen, setIsFilterOpen] = useState(true);
-
   const toggleFilter = useCallback(() => {
     setIsFilterOpen((prev) => !prev);
   }, []);
@@ -80,61 +78,57 @@ const LandingPage: React.FC = () => {
     <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "20px" }}>
       <h1>채용 공고</h1>
 
-      <div style={{ display: "flex", gap: "20px" }}>
-        <div style={{ width: "250px" }}>
-          <JobFilter
-            selectedRoles={selectedRoles}
-            onRoleToggle={handleRoleToggle}
-            onCategoryAllToggle={handleCategoryAllToggle}
-            isFilterOpen={isFilterOpen}
-            onToggleFilter={toggleFilter} // ✅ 추가됨
-          />
-        </div>
+      {/* ✅ 필터 전체를 세로로 배치 */}
+      <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+        {/* 직군 필터 영역 (윗부분으로 이동됨) */}
+        <JobFilter
+          selectedRoles={selectedRoles}
+          onRoleToggle={handleRoleToggle}
+          onCategoryAllToggle={handleCategoryAllToggle}
+          isFilterOpen={isFilterOpen}
+          onToggleFilter={toggleFilter}
+        />
 
-        <div style={{ flexGrow: 1 }}>
-          <TopFilters
-            selectedDomains={selectedDomains}
-            onDomainToggle={handleDomainToggle}
-            isActive={isActive}
-            onIsActiveChange={handleIsActiveChange}
-            order={order}
-            onOrderChange={handleOrderChange}
-            onResetFilters={handleResetFilters}
-            isStatusChanged={isStatusChanged}
-            isDomainsChanged={isDomainsChanged}
-            isSortChanged={isSortChanged}
-          />
+        {/* 모집상태 / 업종 / 최신순 */}
+        <TopFilters
+          selectedDomains={selectedDomains}
+          onDomainToggle={handleDomainToggle}
+          isActive={isActive}
+          onIsActiveChange={handleIsActiveChange}
+          order={order}
+          onOrderChange={handleOrderChange}
+          onResetFilters={handleResetFilters}
+          isStatusChanged={isStatusChanged}
+          isDomainsChanged={isDomainsChanged}
+          isSortChanged={isSortChanged}
+        />
 
-          {error && (
-            <div style={{ color: "red", textAlign: "center", padding: "20px" }}>
-              {error}
-            </div>
-          )}
-
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr 1fr",
-              gap: "20px",
-              marginTop: "20px",
-            }}
-          >
-            {posts.map((post) => (
-              <PostCard
-                key={post.id}
-                post={post}
-                refreshPosts={refreshPosts}
-                onLoginRequired={() => setIsModalOpen(true)}
-              />
-            ))}
+        {/* 채용 공고 리스트 */}
+        {error && (
+          <div style={{ color: "red", textAlign: "center", padding: "20px" }}>
+            {error}
           </div>
+        )}
 
-          <Pagination
-            paginator={paginator}
-            currentPage={page}
-            setPage={setPage}
-          />
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr 1fr",
+            gap: "20px",
+            marginTop: "20px",
+          }}
+        >
+          {posts.map((post) => (
+            <PostCard
+              key={post.id}
+              post={post}
+              refreshPosts={refreshPosts}
+              onLoginRequired={() => setIsModalOpen(true)}
+            />
+          ))}
         </div>
+
+        <Pagination paginator={paginator} currentPage={page} setPage={setPage} />
       </div>
 
       {isModalOpen && (
