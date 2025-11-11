@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
-import { POSITION_CATEGORIES } from "../constants/post";
+import { useCallback, useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { POSITION_CATEGORIES } from '../constants/post';
 // 'PositionValue'와 'PositionCategoryKey' 타입이 constants/post.ts에 정의되어 있어야 합니다.
-import type { PositionCategoryKey, PositionValue } from "../constants/post";
+import type { PositionCategoryKey, PositionValue } from '../constants/post';
 
 /**
  * 직무 및 상단 필터 로직을 관리하는 커스텀 훅
@@ -13,31 +13,31 @@ export function useJobFilter() {
 
   // 💡 복잡한 getInitialState 함수 대신, 각 상태를 명시적으로 초기화합니다.
   const [selectedRoles, setSelectedRoles] = useState<PositionValue[]>(() => {
-    const urlRoles = searchParams.getAll("roles") as PositionValue[];
+    const urlRoles = searchParams.getAll('roles') as PositionValue[];
     if (urlRoles.length > 0) return urlRoles;
-    const stored = JSON.parse(localStorage.getItem("filterState") || "{}");
+    const stored = JSON.parse(localStorage.getItem('filterState') || '{}');
     return stored.roles || [];
   });
 
   const [selectedDomains, setSelectedDomains] = useState<string[]>(() => {
-    const urlDomains = searchParams.getAll("domains");
+    const urlDomains = searchParams.getAll('domains');
     if (urlDomains.length > 0) return urlDomains;
-    const stored = JSON.parse(localStorage.getItem("filterState") || "{}");
+    const stored = JSON.parse(localStorage.getItem('filterState') || '{}');
     return stored.domains || [];
   });
 
   const [isActive, setIsActive] = useState<boolean | null>(() => {
-    const urlIsActive = searchParams.get("isActive");
-    if (urlIsActive !== null) return urlIsActive === "true";
-    const stored = JSON.parse(localStorage.getItem("filterState") || "{}");
+    const urlIsActive = searchParams.get('isActive');
+    if (urlIsActive !== null) return urlIsActive === 'true';
+    const stored = JSON.parse(localStorage.getItem('filterState') || '{}');
     return stored.isActive ?? null;
   });
 
   const [order, setOrder] = useState<0 | 1>(() => {
-    const urlOrder = searchParams.get("order");
-    if (urlOrder === "1") return 1;
-    if (urlOrder === "0") return 0;
-    const stored = JSON.parse(localStorage.getItem("filterState") || "{}");
+    const urlOrder = searchParams.get('order');
+    if (urlOrder === '1') return 1;
+    if (urlOrder === '0') return 0;
+    const stored = JSON.parse(localStorage.getItem('filterState') || '{}');
     return stored.order ?? 0;
   });
 
@@ -49,7 +49,7 @@ export function useJobFilter() {
       isActive,
       order,
     };
-    localStorage.setItem("filterState", JSON.stringify(filterState));
+    localStorage.setItem('filterState', JSON.stringify(filterState));
   }, [selectedRoles, selectedDomains, isActive, order]);
 
   /**
@@ -63,38 +63,38 @@ export function useJobFilter() {
       newDomains: string[],
       newActive: boolean | null,
       newOrder: 0 | 1,
-      resetPage: boolean = true, // 필터 변경 시 1페이지로 리셋
+      resetPage: boolean = true // 필터 변경 시 1페이지로 리셋
     ) => {
       const params = new URLSearchParams(searchParams);
 
       // roles (API 키 'roles' 사용)
-      params.delete("roles");
-      newRoles.forEach((role) => params.append("roles", role));
+      params.delete('roles');
+      newRoles.forEach((role) => params.append('roles', role));
 
       // Domains
-      params.delete("domains");
-      newDomains.forEach((domain) => params.append("domains", domain));
+      params.delete('domains');
+      newDomains.forEach((domain) => params.append('domains', domain));
 
       // isActive
-      params.delete("isActive");
+      params.delete('isActive');
       if (newActive !== null) {
-        params.set("isActive", String(newActive));
+        params.set('isActive', String(newActive));
       }
 
       // Order
-      params.set("order", String(newOrder));
+      params.set('order', String(newOrder));
 
       // Page (필터 변경 시 1페이지(0)로 리셋)
       if (resetPage) {
-        params.set("page", "0");
+        params.set('page', '0');
       } else {
-        if (!params.get("page")) {
-          params.set("page", "0");
+        if (!params.get('page')) {
+          params.set('page', '0');
         }
       }
       setSearchParams(params);
     },
-    [searchParams, setSearchParams],
+    [searchParams, setSearchParams]
   );
 
   // --- 핸들러 함수들 ---
@@ -110,23 +110,23 @@ export function useJobFilter() {
         return newRoles;
       });
     },
-    [selectedDomains, isActive, order, updateSearchParams],
+    [selectedDomains, isActive, order, updateSearchParams]
   );
 
   const handleCategoryAllToggle = useCallback(
     (categoryKey: PositionCategoryKey) => {
       const category = POSITION_CATEGORIES[categoryKey];
       const categoryRoleValues = category.roles.map(
-        (r) => r.value,
+        (r) => r.value
       ) as PositionValue[];
       const allSelected = categoryRoleValues.every((role) =>
-        selectedRoles.includes(role),
+        selectedRoles.includes(role)
       );
 
       setSelectedRoles((prev) => {
         let newRoles: PositionValue[];
         const filteredPrev = prev.filter(
-          (role) => !categoryRoleValues.includes(role),
+          (role) => !categoryRoleValues.includes(role)
         );
         if (allSelected) {
           // 전부 선택된 상태 -> 전부 해제
@@ -139,7 +139,7 @@ export function useJobFilter() {
         return newRoles;
       });
     },
-    [selectedRoles, selectedDomains, isActive, order, updateSearchParams],
+    [selectedRoles, selectedDomains, isActive, order, updateSearchParams]
   );
 
   const handleDomainToggle = useCallback(
@@ -152,7 +152,7 @@ export function useJobFilter() {
         return newDomains;
       });
     },
-    [selectedRoles, isActive, order, updateSearchParams],
+    [selectedRoles, isActive, order, updateSearchParams]
   );
 
   const handleIsActiveChange = useCallback(
@@ -160,7 +160,7 @@ export function useJobFilter() {
       setIsActive(value);
       updateSearchParams(selectedRoles, selectedDomains, value, order);
     },
-    [selectedRoles, selectedDomains, order, updateSearchParams],
+    [selectedRoles, selectedDomains, order, updateSearchParams]
   );
 
   const handleOrderChange = useCallback(
@@ -168,7 +168,7 @@ export function useJobFilter() {
       setOrder(value);
       updateSearchParams(selectedRoles, selectedDomains, isActive, value);
     },
-    [selectedRoles, selectedDomains, isActive, updateSearchParams],
+    [selectedRoles, selectedDomains, isActive, updateSearchParams]
   );
 
   /**
