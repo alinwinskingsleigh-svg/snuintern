@@ -15,9 +15,14 @@ const LandingPage: React.FC = () => {
 
   const page = parseInt(searchParams.get('page') || '0', 10);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // ✅ 찜하기 새로고침을 위한 키 추가
   const [bookmarkRefreshKey, setBookmarkRefreshKey] = useState(0);
+
+  // ✅ 필터 열림/닫힘 상태 추가
+  const [isFilterOpen, setIsFilterOpen] = useState(true);
+
+  const toggleFilter = useCallback(() => {
+    setIsFilterOpen((prev) => !prev);
+  }, []);
 
   useEffect(() => {
     const currentParams = Object.fromEntries(searchParams.entries());
@@ -50,17 +55,15 @@ const LandingPage: React.FC = () => {
     handleResetFilters,
   } = useJobFilter();
 
-  // ✅ bookmarkRefreshKey를 usePosts에 전달
   const { posts, paginator, loading, error } = usePosts(
     selectedRoles,
     selectedDomains,
     isActive,
     order,
     page,
-    bookmarkRefreshKey // ✅ 추가
+    bookmarkRefreshKey
   );
 
-  // ✅ 찜하기 후 데이터 새로고침 함수
   const refreshPosts = useCallback(() => {
     setBookmarkRefreshKey((prev) => prev + 1);
   }, []);
@@ -83,7 +86,8 @@ const LandingPage: React.FC = () => {
             selectedRoles={selectedRoles}
             onRoleToggle={handleRoleToggle}
             onCategoryAllToggle={handleCategoryAllToggle}
-            isFilterOpen={true}
+            isFilterOpen={isFilterOpen}
+            onToggleFilter={toggleFilter} // ✅ 추가됨
           />
         </div>
 
@@ -119,23 +123,17 @@ const LandingPage: React.FC = () => {
               <PostCard
                 key={post.id}
                 post={post}
-                refreshPosts={refreshPosts} // ✅ refreshPosts 전달
+                refreshPosts={refreshPosts}
                 onLoginRequired={() => setIsModalOpen(true)}
               />
             ))}
           </div>
 
-          <Pagination
-            paginator={paginator}
-            currentPage={page}
-            setPage={setPage}
-          />
+          <Pagination paginator={paginator} currentPage={page} setPage={setPage} />
         </div>
       </div>
 
-      {isModalOpen && (
-        <LoginRequiredModal onClose={() => setIsModalOpen(false)} />
-      )}
+      {isModalOpen && <LoginRequiredModal onClose={() => setIsModalOpen(false)} />}
     </div>
   );
 };
