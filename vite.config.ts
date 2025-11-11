@@ -1,7 +1,7 @@
-import path from "path";
+import path from 'path';
 // vite.config.ts
-import react from "@vitejs/plugin-react-swc";
-import { defineConfig } from "vite";
+import react from '@vitejs/plugin-react-swc';
+import { defineConfig } from 'vite';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -9,7 +9,7 @@ export default defineConfig({
   resolve: {
     // 기존 resolve 설정이 있다면 유지
     alias: {
-      "@": path.resolve(__dirname, "./src"),
+      '@': path.resolve(__dirname, './src'),
     },
   },
 });

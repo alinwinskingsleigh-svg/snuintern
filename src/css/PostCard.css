@@ -8,9 +8,7 @@
   display: flex;
   flex-direction: column;
   background-color: #fff;
-  transition:
-    transform 0.2s ease-in-out,
-    box-shadow 0.2s ease-in-out;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
 .post-card:hover {
@@ -45,9 +43,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition:
-    color 0.2s ease,
-    transform 0.2s ease;
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 
 /* 기본 상태 (빈 별) */

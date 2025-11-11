@@ -1,7 +1,7 @@
 // src/hooks/usePosts.ts
-import { useEffect, useState } from "react";
-import { getPosts } from "../api/post_api";
-import type { Paginator, Post } from "../types/post";
+import { useEffect, useState } from 'react';
+import { getPosts } from '../api/post_api';
+import type { Paginator, Post } from '../types/post';
 
 /**
  * 포스트 데이터를 가져오는 커스텀 훅
@@ -18,7 +18,7 @@ export function usePosts(
   isActive: boolean | null,
   order: 0 | 1,
   page: number,
-  bookmarkRefreshKey: number,
+  bookmarkRefreshKey: number
 ) {
   const [posts, setPosts] = useState<Post[]>([]);
   const [paginator, setPaginator] = useState<Paginator>({ lastPage: 1 });
@@ -47,11 +47,11 @@ export function usePosts(
       } catch (err: unknown) {
         // 💡 401 Unauthorized 에러 처리 로직을 추가합니다.
         // api/post_api.ts에서 던진 에러 메시지에 "401"이 포함되어 있는지 확인합니다.
-        if (err instanceof Error && err.message.includes("401")) {
+        if (err instanceof Error && err.message.includes('401')) {
           // 토큰이 만료되었거나 유효하지 않으므로, 로컬 스토리지에서 토큰을 제거합니다.
-          localStorage.removeItem("token");
+          localStorage.removeItem('token');
           // 사용자에게 알리고 페이지를 새로고침하여 로그인 상태를 초기화합니다.
-          alert("세션이 만료되었습니다. 다시 로그인해주세요.");
+          alert('세션이 만료되었습니다. 다시 로그인해주세요.');
           window.location.reload(); // 페이지 새로고침
           return; // 추가적인 에러 상태 업데이트를 막기 위해 여기서 함수를 종료합니다.
         }
@@ -60,7 +60,7 @@ export function usePosts(
         if (err instanceof Error) {
           setError(err.message);
         } else {
-          setError("데이터를 불러오는 데 실패했습니다.");
+          setError('데이터를 불러오는 데 실패했습니다.');
         }
       } finally {
         setLoading(false);

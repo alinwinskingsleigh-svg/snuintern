@@ -1,6 +1,6 @@
 // src/components/Pagination.tsx
-import React from "react";
-import type { Paginator } from "../types/post";
+import React from 'react';
+import type { Paginator } from '../types/post';
 
 interface PaginationProps {
   paginator: Paginator;
@@ -40,13 +40,13 @@ const Pagination: React.FC<PaginationProps> = ({
         onClick={() => setPage(pageNum)}
         // TODO: CSS 파일이 없으므로 인라인 스타일로 임시 적용
         style={{
-          margin: "0 5px",
-          padding: "5px 10px",
+          margin: '0 5px',
+          padding: '5px 10px',
           border:
-            currentPage === pageNum ? "1px solid #007bff" : "1px solid #ddd",
-          backgroundColor: currentPage === pageNum ? "#007bff" : "white",
-          color: currentPage === pageNum ? "white" : "black",
-          cursor: "pointer",
+            currentPage === pageNum ? '1px solid #007bff' : '1px solid #ddd',
+          backgroundColor: currentPage === pageNum ? '#007bff' : 'white',
+          color: currentPage === pageNum ? 'white' : 'black',
+          cursor: 'pointer',
         }}
       >
         {pageNum + 1}
@@ -56,13 +56,13 @@ const Pagination: React.FC<PaginationProps> = ({
 
   return (
     <div
-      style={{ display: "flex", justifyContent: "center", marginTop: "30px" }}
+      style={{ display: 'flex', justifyContent: 'center', marginTop: '30px' }}
     >
       {/* 이전 페이지 버튼 */}
       <button
         onClick={() => hasPrev && setPage(currentPage - 1)}
         disabled={!hasPrev}
-        style={{ marginRight: "10px" }}
+        style={{ marginRight: '10px' }}
       >
         &lt; 이전
       </button>
@@ -74,7 +74,7 @@ const Pagination: React.FC<PaginationProps> = ({
       <button
         onClick={() => hasNext && setPage(currentPage + 1)}
         disabled={!hasNext}
-        style={{ marginLeft: "10px" }}
+        style={{ marginLeft: '10px' }}
       >
         다음 &gt;
       </button>

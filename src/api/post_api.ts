@@ -1,19 +1,19 @@
 // src/api/post.ts
-import type { GetPostsParams, GetPostsResponse } from "../types/post";
-import { encodeQueryParams } from "../utils/query";
+import type { GetPostsParams, GetPostsResponse } from '../types/post';
+import { encodeQueryParams } from '../utils/query';
 
-const API_BASE_URL = "https://api-internhasha.wafflestudio.com";
+const API_BASE_URL = 'https://api-internhasha.wafflestudio.com';
 
 // 모든 API 요청에 공통으로 필요한 헤더(JWT 포함)를 구성하는 유틸리티 함수입니다.
 const getAuthHeaders = (): HeadersInit => {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
   const headers: HeadersInit = {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   };
 
   // 예시 코드(usePosts.js)와 동일하게 토큰이 있을 경우 Authorization 헤더에 추가
   if (token) {
-    headers["Authorization"] = `Bearer ${token}`;
+    headers['Authorization'] = `Bearer ${token}`;
   }
   return headers;
 };
@@ -24,13 +24,13 @@ const getAuthHeaders = (): HeadersInit => {
  * @returns 공고 목록과 페이지네이션 정보
  */
 export const getPosts = async (
-  params: GetPostsParams,
+  params: GetPostsParams
 ): Promise<GetPostsResponse> => {
   // 쿼리 파라미터 인코딩
   const queryString = encodeQueryParams({ params });
   // 💡 API_BASE_URL을 사용해 절대 경로로 요청합니다.
   const response = await fetch(`${API_BASE_URL}/api/post?${queryString}`, {
-    method: "GET",
+    method: 'GET',
     headers: getAuthHeaders(),
   });
 
@@ -38,7 +38,7 @@ export const getPosts = async (
     // 401 에러는 usePosts 훅에서 직접 처리하도록 로직 분리 (예시 코드 참고)
     // 여기서는 기본 에러만 던집니다.
     throw new Error(
-      `Failed to fetch posts: ${response.status} ${response.statusText}`,
+      `Failed to fetch posts: ${response.status} ${response.statusText}`
     );
   }
 
@@ -52,7 +52,7 @@ export const getPosts = async (
 export const bookmarkPost = async (postId: string): Promise<void> => {
   // 💡 API_BASE_URL을 사용해 절대 경로로 요청합니다.
   const response = await fetch(`${API_BASE_URL}/api/post/${postId}/bookmark`, {
-    method: "POST",
+    method: 'POST',
     headers: getAuthHeaders(),
   });
 
@@ -68,7 +68,7 @@ export const bookmarkPost = async (postId: string): Promise<void> => {
 export const unbookmarkPost = async (postId: string): Promise<void> => {
   // 💡 API_BASE_URL을 사용해 절대 경로로 요청합니다.
   const response = await fetch(`${API_BASE_URL}/api/post/${postId}/bookmark`, {
-    method: "DELETE",
+    method: 'DELETE',
     headers: getAuthHeaders(),
   });
 
