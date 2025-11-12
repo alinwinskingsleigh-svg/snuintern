@@ -17,6 +17,11 @@ body {
   background-color: #fff;
 }
 
+.nav-links {
+  display: flex;
+  align-items: center;
+}
+
 .nav-links a,
 .nav-links button {
   margin-left: 20px;
@@ -26,6 +31,7 @@ body {
   border: none;
   cursor: pointer;
   font-weight: 500;
+  white-space: nowrap;
 }
 
 .form-container {

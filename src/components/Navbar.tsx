@@ -15,7 +15,7 @@ const Navbar: React.FC<NavbarProps> = ({ user, onLogout }) => {
       <div className="nav-links">
         {user ? (
           <>
-            <span>{user.name}님</span>
+            <Link to="/mypage">마이페이지</Link>
             <button onClick={onLogout}>로그아웃</button>
           </>
         ) : (
