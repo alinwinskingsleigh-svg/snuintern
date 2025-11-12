@@ -1,6 +1,6 @@
-const API_BASE_URL = 'https://api-internhasha.wafflestudio.com';
 
 import type { User } from '../types/user';
+import { API_BASE_URL } from '../constants/api';
 
 interface SignupInfo {
   type: 'APPLICANT';
