@@ -15,9 +15,13 @@ const LandingPage: React.FC = () => {
 
   const page = parseInt(searchParams.get('page') || '0', 10);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // ✅ 찜하기 새로고침을 위한 키 추가
   const [bookmarkRefreshKey, setBookmarkRefreshKey] = useState(0);
+
+  const [isFilterOpen, setIsFilterOpen] = useState(true);
+
+  const toggleFilter = useCallback(() => {
+    setIsFilterOpen((prev) => !prev);
+  }, []);
 
   useEffect(() => {
     const currentParams = Object.fromEntries(searchParams.entries());
@@ -50,17 +54,15 @@ const LandingPage: React.FC = () => {
     handleResetFilters,
   } = useJobFilter();
 
-  // ✅ bookmarkRefreshKey를 usePosts에 전달
   const { posts, paginator, loading, error } = usePosts(
     selectedRoles,
     selectedDomains,
     isActive,
     order,
     page,
-    bookmarkRefreshKey // ✅ 추가
+    bookmarkRefreshKey
   );
 
-  // ✅ 찜하기 후 데이터 새로고침 함수
   const refreshPosts = useCallback(() => {
     setBookmarkRefreshKey((prev) => prev + 1);
   }, []);
@@ -77,60 +79,61 @@ const LandingPage: React.FC = () => {
     <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px' }}>
       <h1>채용 공고</h1>
 
-      <div style={{ display: 'flex', gap: '20px' }}>
-        <div style={{ width: '250px' }}>
-          <JobFilter
-            selectedRoles={selectedRoles}
-            onRoleToggle={handleRoleToggle}
-            onCategoryAllToggle={handleCategoryAllToggle}
-            isFilterOpen={true}
-          />
-        </div>
+      {/* ✅ 필터 전체를 세로로 배치 */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        {/* 직군 필터 영역 (윗부분으로 이동됨) */}
+        <JobFilter
+          selectedRoles={selectedRoles}
+          onRoleToggle={handleRoleToggle}
+          onCategoryAllToggle={handleCategoryAllToggle}
+          isFilterOpen={isFilterOpen}
+          onToggleFilter={toggleFilter}
+        />
 
-        <div style={{ flexGrow: 1 }}>
-          <TopFilters
-            selectedDomains={selectedDomains}
-            onDomainToggle={handleDomainToggle}
-            isActive={isActive}
-            onIsActiveChange={handleIsActiveChange}
-            order={order}
-            onOrderChange={handleOrderChange}
-            onResetFilters={handleResetFilters}
-            isStatusChanged={isStatusChanged}
-            isDomainsChanged={isDomainsChanged}
-            isSortChanged={isSortChanged}
-          />
+        {/* 모집상태 / 업종 / 최신순 */}
+        <TopFilters
+          selectedDomains={selectedDomains}
+          onDomainToggle={handleDomainToggle}
+          isActive={isActive}
+          onIsActiveChange={handleIsActiveChange}
+          order={order}
+          onOrderChange={handleOrderChange}
+          onResetFilters={handleResetFilters}
+          isStatusChanged={isStatusChanged}
+          isDomainsChanged={isDomainsChanged}
+          isSortChanged={isSortChanged}
+        />
 
-          {error && (
-            <div style={{ color: 'red', textAlign: 'center', padding: '20px' }}>
-              {error}
-            </div>
-          )}
-
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr 1fr',
-              gap: '20px',
-              marginTop: '20px',
-            }}
-          >
-            {posts.map((post) => (
-              <PostCard
-                key={post.id}
-                post={post}
-                refreshPosts={refreshPosts} // ✅ refreshPosts 전달
-                onLoginRequired={() => setIsModalOpen(true)}
-              />
-            ))}
+        {/* 채용 공고 리스트 */}
+        {error && (
+          <div style={{ color: 'red', textAlign: 'center', padding: '20px' }}>
+            {error}
           </div>
+        )}
 
-          <Pagination
-            paginator={paginator}
-            currentPage={page}
-            setPage={setPage}
-          />
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr 1fr',
+            gap: '20px',
+            marginTop: '20px',
+          }}
+        >
+          {posts.map((post) => (
+            <PostCard
+              key={post.id}
+              post={post}
+              refreshPosts={refreshPosts}
+              onLoginRequired={() => setIsModalOpen(true)}
+            />
+          ))}
         </div>
+
+        <Pagination
+          paginator={paginator}
+          currentPage={page}
+          setPage={setPage}
+        />
       </div>
 
       {isModalOpen && (
