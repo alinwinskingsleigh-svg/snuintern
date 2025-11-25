@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface NavbarProps {
   user: { name: string } | null;
@@ -7,6 +7,8 @@ interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = ({ user, onLogout }) => {
+  const navigate = useNavigate();
+
   return (
     <nav className="navbar">
       <Link to="/" className="logo">
@@ -15,7 +17,7 @@ const Navbar: React.FC<NavbarProps> = ({ user, onLogout }) => {
       <div className="nav-links">
         {user ? (
           <>
-            <span>{user.name}님</span>
+            <button onClick={() => navigate("/mypage")}>마이페이지</button>
             <button onClick={onLogout}>로그아웃</button>
           </>
         ) : (
