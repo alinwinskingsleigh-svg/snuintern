@@ -17,7 +17,7 @@ const Navbar: React.FC<NavbarProps> = ({ user, onLogout }) => {
       <div className="nav-links">
         {user ? (
           <>
-            <button onClick={() => navigate("/mypage")}>마이페이지</button>
+            <button onClick={() => navigate('/mypage')}>마이페이지</button>
             <button onClick={onLogout}>로그아웃</button>
           </>
         ) : (

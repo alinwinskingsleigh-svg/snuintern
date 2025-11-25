@@ -1,7 +1,7 @@
-import { AxiosError } from "axios";
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { getMe } from "../api/applicant";
+import { AxiosError } from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { getMe } from '../api/applicant';
 
 interface ProfileData {
   name: string;
@@ -21,7 +21,7 @@ const ProfileTab: React.FC<{ token: string }> = ({ token }) => {
       .catch((err: unknown) => {
         const axiosErr = err as AxiosError<{ code: string }>;
 
-        if (axiosErr.response?.data?.code === "APPLICANT_002") setProfile(null);
+        if (axiosErr.response?.data?.code === 'APPLICANT_002') setProfile(null);
         else console.error(err);
       })
       .finally(() => setLoading(false));
@@ -37,12 +37,12 @@ const ProfileTab: React.FC<{ token: string }> = ({ token }) => {
           <p>이메일: {profile.email}</p>
           <p>학번: {profile.enrollYear}</p>
           <p>학과: {profile.department}</p>
-          <button onClick={() => navigate("/mypage/profile")}>
+          <button onClick={() => navigate('/mypage/profile')}>
             내 프로필 수정
           </button>
         </>
       ) : (
-        <button onClick={() => navigate("/mypage/profile")}>
+        <button onClick={() => navigate('/mypage/profile')}>
           내 프로필 생성
         </button>
       )}

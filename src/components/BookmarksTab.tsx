@@ -1,6 +1,6 @@
-import dayjs from "dayjs";
-import React, { useEffect, useState } from "react";
-import { getBookmarks } from "../api/post";
+import dayjs from 'dayjs';
+import React, { useEffect, useState } from 'react';
+import { getBookmarks } from '../api/post';
 
 interface Bookmark {
   id: string;
@@ -19,8 +19,8 @@ const BookmarksTab: React.FC<{ token: string }> = ({ token }) => {
   const getStatusColor = (date: string) => {
     const endDate = dayjs(date);
     const today = dayjs();
-    if (!date || endDate.diff(today, "day") >= 0) return "blue";
-    return "red";
+    if (!date || endDate.diff(today, 'day') >= 0) return 'blue';
+    return 'red';
   };
 
   return (
@@ -30,7 +30,9 @@ const BookmarksTab: React.FC<{ token: string }> = ({ token }) => {
           <h3>{b.companyName}</h3>
           <p>{b.positionTitle}</p>
           <p style={{ color: getStatusColor(b.employmentEndDate) }}>
-            {b.employmentEndDate ? dayjs(b.employmentEndDate).format("YYYY-MM-DD") : "상시 모집"}
+            {b.employmentEndDate
+              ? dayjs(b.employmentEndDate).format('YYYY-MM-DD')
+              : '상시 모집'}
           </p>
         </div>
       ))}
