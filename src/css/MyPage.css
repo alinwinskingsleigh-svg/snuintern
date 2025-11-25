@@ -52,3 +52,107 @@
 .tab-content {
   min-height: 300px;
 }
+
+/* 프로필 탭 전체 레이아웃 */
+.profile-tab {
+  width: 100%;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+/* 헤더 영역 (제목과 우측 버튼 배치) */
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
+}
+
+.profile-header h3 {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+  color: #333;
+}
+
+/* 작은 버튼 (우측 상단) */
+.btn-create-profile-small,
+.btn-edit-profile {
+  padding: 8px 16px;
+  font-size: 14px;
+  background-color: #000000;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-create-profile-small:hover,
+.btn-edit-profile:hover {
+  background-color: #007bff;
+}
+
+/* 프로필이 없을 때 중앙 컨텐츠 */
+.profile-empty-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 0;
+  text-align: center;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+.profile-empty-content p {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+/* 큰 버튼 (중앙) */
+.btn-create-profile-large {
+  padding: 14px 28px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #007bff; /* 메인 테마 색상으로 변경 가능 */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s;
+}
+
+.btn-create-profile-large:hover {
+  background-color: #0056b3;
+}
+
+/* 프로필 상세 정보 스타일 */
+.profile-details {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.profile-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.profile-item .label {
+  width: 100px;
+  font-weight: 600;
+  color: #555;
+}
+
+.profile-item .value {
+  color: #333;
+  flex: 1;
+}
