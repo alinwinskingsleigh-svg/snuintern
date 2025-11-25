@@ -51,7 +51,7 @@ const BookmarksTab: React.FC<{ token: string }> = ({ token }) => {
           post={post}
           onLoginRequired={() => alert('로그인이 필요합니다.')}
           // 여기서 함수를 전달하므로 fetchBookmarks는 useEffect 밖(컴포넌트 스코프)에 있어야 합니다.
-          refreshPosts={fetchBookmarks} 
+          refreshPosts={fetchBookmarks}
         />
       ))}
     </div>
