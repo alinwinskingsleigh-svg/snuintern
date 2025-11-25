@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { getMe, logout } from './api/auth';
+import MyPage from "./components/MyPage";
 import Navbar from './components/Navbar';
+import ProfileForm from "./components/ProfileForm";
 import LandingPage from './pages/LandingPage';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -43,6 +45,9 @@ const App: React.FC = () => {
           path="/signup"
           element={<Signup setUser={setUser} setToken={setToken} />}
         />
+        <Route path="/mypage" element={token ? <MyPage token={token} /> : <LandingPage />} />
+        <Route path="/mypage/profile" element={token ? <ProfileForm token={token} /> : <LandingPage />} />
+
       </Routes>
     </Router>
   );
