@@ -51,7 +51,7 @@ const App: React.FC = () => {
         />
         <Route
           path="/mypage/profile"
-          element={token ? <ProfileForm token={token} /> : <LandingPage />}
+          element={token ? <ProfileForm {...({ token } as any)} /> : <LandingPage />}
         />
       </Routes>
     </Router>
