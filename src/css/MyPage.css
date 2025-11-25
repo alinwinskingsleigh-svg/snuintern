@@ -1,22 +1,54 @@
-.mypage-container {
-  max-width: 900px;
-  margin: 60px auto;
+/* src/css/MyPage.css */
+
+.mypage {
+  max-width: 1200px; /* 적절한 최대 너비 설정 */
+  margin: 0 auto;
+  padding: 40px 20px;
 }
 
-.mypage-tabs {
+/* --- 탭 영역 스타일 --- */
+
+.tabs {
   display: flex;
-  gap: 16px;
-  border-bottom: 1px solid #ddd;
-  margin-bottom: 24px;
+  gap: 24px; /* 탭 사이 간격 */
+  border-bottom: 1px solid #e0e0e0; /* 전체를 가로지르는 연한 회색 줄 */
+  margin-bottom: 32px; /* 콘텐츠와의 간격 */
 }
 
-.mypage-tab {
-  padding: 12px 18px;
+.tab-button {
+  background: none;
+  border: none;
+  outline: none;
+  padding: 12px 4px; /* 클릭 영역 확보 */
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #999999; /* 기본: 연한 회색 */
   cursor: pointer;
-  font-weight: 500;
+  position: relative; /* 밑줄 위치 잡기 위해 필요 */
+  transition: color 0.2s ease;
 }
 
-.mypage-tab.active {
-  border-bottom: 3px solid #2563eb;
-  color: #2563eb;
+.tab-button:hover {
+  color: #555; /* 호버 시 약간 진하게 */
+}
+
+/* 활성화된 탭 (선택됨) */
+.tab-button.active {
+  color: #222222; /* 진한 검정색 텍스트 */
+}
+
+/* 활성화된 탭의 검은색 밑줄 (가상 요소로 구현) */
+.tab-button.active::after {
+  content: "";
+  position: absolute;
+  bottom: -1px; /* 부모의 회색 줄 바로 위에 겹치게 배치 */
+  left: 0;
+  width: 100%;
+  height: 3px; /* 검은 줄 두께 */
+  background-color: #222222; /* 검은색 */
+}
+
+/* --- 콘텐츠 영역 --- */
+.tab-content {
+  min-height: 300px;
 }
