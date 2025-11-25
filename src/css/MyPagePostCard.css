@@ -1,0 +1,120 @@
+/* src/css/MyPagePostCard.css */
+
+/* 마이페이지 카드 리스트 래퍼 안에서만 동작하는 스타일 */
+
+.mypage-card-list .post-card {
+  background-color: #ffffff;
+  border: 1px solid #f0f0f0;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  position: relative;
+  min-height: 220px;
+  overflow: hidden;
+  height: auto;
+}
+
+.mypage-card-list .post-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+}
+
+/* --- 상단 영역 (D-Day & 북마크) --- */
+
+.mypage-card-list .post-card__d-day {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  background-color: #ffebee;
+  color: #ff5252;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin: 0;
+  z-index: 2;
+}
+
+.mypage-card-list .post-card__bookmark-button {
+  all: unset;
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  cursor: pointer;
+  font-size: 24px;
+  color: #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease, transform 0.2s ease;
+  z-index: 2;
+}
+
+.mypage-card-list .post-card__bookmark-button:hover {
+  transform: scale(1.1);
+  color: #5c6ac4;
+}
+
+.mypage-card-list .post-card__bookmark-button--bookmarked {
+  color: #ffd700;
+}
+
+/* --- 메인 콘텐츠 영역 --- */
+
+.mypage-card-list .post-card__header {
+  display: none;
+}
+
+.mypage-card-list .post-card__title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #333;
+  margin: 40px 0 8px 0;
+  line-height: 1.4;
+  
+  /* 말줄임표 처리 (호환성 보완) */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2; /* 표준 속성 추가 */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.mypage-card-list .post-card__company-name {
+  font-size: 0.95rem;
+  color: #666;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.mypage-card-list .post-card__slogan {
+  font-size: 0.9rem;
+  color: #888;
+  line-height: 1.5;
+  margin-bottom: 16px;
+  
+  /* 말줄임표 처리 (호환성 보완) */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2; /* 표준 속성 추가 */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* --- 하단 태그 영역 --- */
+
+.mypage-card-list .post-card__domain {
+  display: inline-block;
+  background-color: #f4f6f8;
+  color: #5c6ac4;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 6px;
+  margin-top: auto;
+  align-self: flex-start;
+}

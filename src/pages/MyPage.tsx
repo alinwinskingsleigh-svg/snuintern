@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import MyPage from '../components/MyPage';
+import MyPage from '../components/MyPage.tsx';
 import ProfileForm from '../components/ProfileForm';
 
 const MyPagePage: React.FC<{ token: string }> = ({ token }) => (

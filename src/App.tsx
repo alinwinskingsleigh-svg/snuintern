@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { getMe, logout } from './api/auth';
-import MyPage from './components/MyPage';
+import MyPage from './components/MyPage.tsx';
 import Navbar from './components/Navbar';
 import ProfileForm from './components/ProfileForm';
 import LandingPage from './pages/LandingPage';

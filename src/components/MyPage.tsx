@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import BookmarksTab from "./BookmarksTab";
 import ProfileTab from "./ProfileTab";
 
+import "../css/MyPage.css";
+import "../css/MyPagePostCard.css"
+
 const MyPage: React.FC<{ token: string }> = ({ token }) => {
   const [activeTab, setActiveTab] = useState<"bookmarks" | "profile">("bookmarks");
 
@@ -22,9 +25,9 @@ const MyPage: React.FC<{ token: string }> = ({ token }) => {
         </button>
       </div>
 
-      <div className="tab-content">
+      <div className={`tab-content ${activeTab === "bookmarks" ? "mypage-card-list" : ""}`}>
         {activeTab === "bookmarks" ? <BookmarksTab token={token} /> : <ProfileTab token={token} />}
-      </div>
+        </div>
     </div>
   );
 };
