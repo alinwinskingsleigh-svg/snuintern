@@ -47,8 +47,8 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
           <div className="profile-item-department">
             <span className="value">
               {(() => {
-                const [main, sub] = profile.department.split(','); 
-                
+                const [main, sub] = profile.department.split(',');
+
                 return (
                   <>
                     {main.trim()}
@@ -57,7 +57,9 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
                   </>
                 );
               })()}
-              {''}{String(profile.enrollYear).slice(-2)}학번</span>
+              {''}
+              {String(profile.enrollYear).slice(-2)}학번
+            </span>
           </div>
         </div>
       )}

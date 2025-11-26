@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import UploadIcon from '../icons/UploadIcon';
 import '../css/ProfileForm.css';
-import { putMe, getMe } from '../api/applicant';
+import { getMe, putMe } from '../api/applicant';
 
 interface ProfileFormProps {
   token: string;
@@ -17,12 +17,12 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ token }) => {
   const [departments, setDepartments] = useState<string[]>([]);
   const [cvFile, setCvFile] = useState<File | null>(null);
 
-useEffect(() => {
+  useEffect(() => {
     const fetchUserData = async () => {
       try {
         // 1. GET으로 정보 가져오기 (저장된 데이터: "컴퓨터공학부,조경시스템")
-        const data = await getMe(token); 
-        
+        const data = await getMe(token);
+
         if (data) {
           // 2. 학번 복구 (2021 -> 21)
           if (data.enrollYear) {
@@ -33,21 +33,18 @@ useEffect(() => {
           // "컴퓨터공학부,조경시스템" 문자열을 -> ['컴퓨터공학부', '조경시스템'] 배열로 변환
           if (data.department) {
             const savedDepartments = data.department.split(',');
-            setDepartments(savedDepartments); 
-            // setDepartments에 배열을 넣으면, 
+            setDepartments(savedDepartments);
+            // setDepartments에 배열을 넣으면,
             // 아래의 map() 함수가 돌면서 자동으로 입력창을 2개(또는 N개) 만들어줍니다.
           }
         }
       } catch (error) {
-        console.error("데이터 불러오기 실패:", error);
+        console.error('데이터 불러오기 실패:', error);
       }
     };
 
     fetchUserData();
   }, [token]);
-
-
-
 
   // 파일 선택 핸들러
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -185,13 +182,13 @@ useEffect(() => {
                 placeholder="학과 입력"
               />
               {index > 0 && (
-              <button
-                type="button"
-                className="delete-button"
-                onClick={() => handleRemoveDepartmentRow(index)}
-              >
-                삭제
-              </button>
+                <button
+                  type="button"
+                  className="delete-button"
+                  onClick={() => handleRemoveDepartmentRow(index)}
+                >
+                  삭제
+                </button>
               )}
             </div>
           ))}
