@@ -10,6 +10,7 @@ const POSITION_VALUES = {
   DESIGN: 'DESIGN',
   PLANNER: 'PLANNER',
   MARKETING: 'MARKETING',
+  HUMANRESOURCE: 'HUMANRESOURCE',
 } as const;
 
 export type PositionValue =
@@ -38,6 +39,10 @@ export const POSITION_CATEGORIES = {
   마케팅: {
     label: '마케팅',
     roles: [{ value: POSITION_VALUES.MARKETING, label: '마케팅' }],
+  },
+  기타: {
+    label: '기타',
+    roles: [{ value: POSITION_VALUES.HUMANRESOURCE, label: '인사·총무' }],
   },
 } as const;
 

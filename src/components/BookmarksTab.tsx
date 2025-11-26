@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { getBookmarks } from '../api/post';
 import type { Post } from '../types/post';
-import PostCard from './PostCard';
+import BookmarkPostCard from './BookmarkPostCard'; // ✅ 위에서 만든 컴포넌트 import
 import '../css/MyPagePostCard.css';
 
 interface BookmarksTabProps {
@@ -13,7 +13,6 @@ const BookmarksTab: React.FC<BookmarksTabProps> = ({ token }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // ✅ 수정 포인트: fetchBookmarks를 useCallback으로 감싸서 메모이제이션
   const fetchBookmarks = useCallback(async () => {
     try {
       setLoading(true);
@@ -29,9 +28,7 @@ const BookmarksTab: React.FC<BookmarksTabProps> = ({ token }) => {
   }, [token]);
 
   useEffect(() => {
-    if (token) {
-      fetchBookmarks();
-    }
+    if (token) fetchBookmarks();
   }, [token, fetchBookmarks]);
 
   if (loading) return <div className="loading-msg">로딩 중...</div>;
@@ -39,30 +36,23 @@ const BookmarksTab: React.FC<BookmarksTabProps> = ({ token }) => {
 
   if (!bookmarks || bookmarks.length === 0) {
     return (
-      <div
-        style={{
-          padding: '40px',
-          textAlign: 'center',
-          color: '#666',
-          gridColumn: '1 / -1',
-        }}
-      >
+      <div style={{ padding: '60px', textAlign: 'center', color: '#888' }}>
         찜한 공고가 없습니다.
       </div>
     );
   }
 
+  // ✅ 오류 해결: 이제 변수 걱정 없이 리스트 컨테이너만 작성하면 됩니다.
   return (
-    <>
+    <div className="bookmark-list-container">
       {bookmarks.map((post) => (
-        <PostCard
+        <BookmarkPostCard
           key={post.id}
           post={post}
-          onLoginRequired={() => alert('로그인이 필요합니다.')}
-          refreshPosts={fetchBookmarks} // 북마크 해제 시 목록 갱신을 위해 전달
+          onRemove={fetchBookmarks} // 삭제 시 목록 새로고침
         />
       ))}
-    </>
+    </div>
   );
 };
 
