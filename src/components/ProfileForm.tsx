@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import UploadIcon from '../icons/UploadIcon';
 import '../css/ProfileForm.css';
-import { putMe } from '../api/applicant'; // API 함수 import
+import { putMe } from '../api/applicant';
 
-// 토큰을 props로 받아야 API 호출이 가능합니다.
 interface ProfileFormProps {
   token: string;
 }
@@ -12,9 +11,10 @@ interface ProfileFormProps {
 const ProfileForm: React.FC<ProfileFormProps> = ({ token }) => {
   const navigate = useNavigate();
 
-  // 초기값은 필요에 따라 props로 받은 user 정보로 설정할 수도 있습니다.
+  // 상태 관리
   const [studentId, setStudentId] = useState<string>('25');
-  const [department, setDepartment] = useState<string>('컴공');
+  // [수정] 학과를 리스트 형태로 관리 (초기값: 입력창 1개)
+  const [departments, setDepartments] = useState<string[]>(['컴공']);
   const [cvFile, setCvFile] = useState<File | null>(null);
 
   // 파일 선택 핸들러
@@ -24,44 +24,94 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ token }) => {
     }
   };
 
-  // [수정] 학과 "추가" 버튼 핸들러
-  // 백엔드 구조상 학과가 1개이므로, 리스트 추가가 아닌 입력 확인 용도로 사용합니다.
-  const handleAddDepartment = () => {
-    if (!department.trim()) {
-      alert('학과를 입력해주세요.');
-      return;
-    }
-    alert(`'${department}' 학과가 입력되었습니다.`);
+  // [기능] 학과 입력값 변경
+  const handleDepartmentChange = (index: number, value: string) => {
+    const newDepts = [...departments];
+    newDepts[index] = value;
+    setDepartments(newDepts);
   };
 
-  // [수정] "저장" 버튼 핸들러 (폼 제출)
+  // [기능] 학과 입력창 추가 (새로운 줄 생성)
+  const handleAddDepartmentRow = () => {
+    setDepartments([...departments, '']); // 빈 문자열 추가 -> 새 입력창 렌더링
+  };
+
+  // [기능] 학과 입력창 삭제
+  const handleRemoveDepartmentRow = (index: number) => {
+    // 입력창이 1개 남았을 때는 삭제 대신 내용만 비우기 (선택 사항)
+    if (departments.length === 1) {
+      handleDepartmentChange(index, '');
+      return;
+    }
+    const newDepts = departments.filter((_, i) => i !== index);
+    setDepartments(newDepts);
+  };
+
+  // [유틸] 랜덤 문자열 생성
+  const generateRandomString = (length: number) => {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return result;
+  };
+
+  // [유틸] 날짜 문자열 생성 (YYYYMMDD)
+  const getFormattedDate = () => {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}${month}${day}`;
+  };
+
+  // [기능] 저장 버튼 핸들러
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // 1. 유효성 검사
-    if (!studentId || !department) {
-      alert('학번과 학과를 모두 입력해주세요.');
+    // 빈 입력값 제거
+    const validDepartments = departments.map(d => d.trim()).filter(d => d !== '');
+
+    if (!studentId || validDepartments.length === 0) {
+      alert('학번과 학과를 입력해주세요.');
+      return;
+    }
+    
+    if (!cvFile) {
+      alert('이력서(PDF) 파일을 업로드해주세요.');
       return;
     }
 
     try {
-      // 2. 파일 업로드 로직 (TODO: 실제 구현 필요)
-      // 현재 API는 cvKey(문자열)를 요구합니다. 
-      // 실제로는 여기서 파일을 서버/S3에 올리고 받은 키를 cvKey에 넣어야 합니다.
-      // 임시로 파일 이름을 키로 사용합니다.
-      const cvKey = cvFile ? cvFile.name : 'temp_cv_key';
+      const randomStr = generateRandomString(10);
+      const dateStr = getFormattedDate();
+      const fileName = cvFile.name;
+      
+      const generatedCvKey = `static/private/CV/${randomStr}_${dateStr}/${fileName}`;
+      
+      let enrollYearNum = parseInt(studentId, 10);
+      if (enrollYearNum < 100) {
+        enrollYearNum += 2000;
+      }
 
-      // 3. API 호출 (저장)
+      // 배열을 콤마(,)로 합쳐서 전송
+      const formattedDepartment = validDepartments.join(',');
+
+      console.log('Sending Payload:', {
+        enrollYear: enrollYearNum,
+        department: formattedDepartment,
+        cvKey: generatedCvKey
+      });
+
       await putMe(token, {
-        enrollYear: parseInt(studentId, 10), // 문자열 -> 숫자 변환
-        department: department,
-        cvKey: cvKey,
+        enrollYear: enrollYearNum,
+        department: formattedDepartment,
+        cvKey: generatedCvKey,
       });
 
       alert('프로필이 성공적으로 저장되었습니다.');
-      
-      // 4. 저장 후 뒤로가기
-      navigate(-1); 
+      navigate(-1);
 
     } catch (error) {
       console.error('프로필 저장 실패:', error);
@@ -71,6 +121,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ token }) => {
 
   return (
     <form className="profile-form" onSubmit={handleSubmit}>
+      <h2>내 프로필 생성</h2>
       
       {/* 학번 */}
       <div className="form-group">
@@ -88,27 +139,40 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ token }) => {
         </div>
       </div>
 
-      {/* 학과 */}
+      {/* 학과 (다중 입력) */}
       <div className="form-group">
-        <label htmlFor="department">
+        <label>
           학과 <span className="required">*</span>
         </label>
-        <div className="input-button-group">
-          <input
-            type="text"
-            id="department"
-            value={department}
-            onChange={(e) => setDepartment(e.target.value)}
-          />
-          {/* [수정] type="button" 명시 및 onClick 핸들러 연결 */}
-          <button
-            type="button"
-            className="add-button"
-            onClick={handleAddDepartment}
-          >
-            추가
-          </button>
+        
+        <div className="department-inputs-container">
+          {departments.map((dept, index) => (
+            <div className="input-button-group" key={index}>
+              <input
+                type="text"
+                value={dept}
+                onChange={(e) => handleDepartmentChange(index, e.target.value)}
+                placeholder="학과 입력"
+              />
+              <button
+                type="button"
+                className="delete-button"
+                onClick={() => handleRemoveDepartmentRow(index)}
+              >
+                삭제
+              </button>
+            </div>
+          ))}
         </div>
+
+        {/* [수정] 하단에 '학과 추가' 버튼 배치 */}
+        <button
+          type="button"
+          className="add-row-button"
+          onClick={handleAddDepartmentRow}
+        >
+          + 학과 추가
+        </button>
       </div>
 
       {/* 이력서 (CV) - 파일 업로드 */}
@@ -135,18 +199,15 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ token }) => {
 
       {/* Action Buttons */}
       <div className="action-buttons">
-        {/* 저장 버튼: type="submit" 유지 */}
-        <button type="submit" className="submit-button">
-          저장
-        </button>
-        
-        {/* [수정] 뒤로가기 버튼: type="button" 및 onClick 연결 */}
         <button 
           type="button" 
           className="cancel-button"
           onClick={() => navigate(-1)}
         >
           뒤로가기
+        </button>
+        <button type="submit" className="submit-button">
+          저장
         </button>
       </div>
     </form>
