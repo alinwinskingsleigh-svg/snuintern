@@ -146,6 +146,19 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ token }) => {
     }
   };
 
+// [기능] 파일 삭제 핸들러
+const handleRemoveFile = () => {
+  setCvFile(null); // 1. 상태에서 파일 비우기
+  
+  // 3. input 태그 초기화 (같은 파일을 다시 올릴 때를 대비해 필수!)
+  const fileInput = document.getElementById('cv-upload') as HTMLInputElement;
+  if (fileInput) {
+    fileInput.value = '';
+  }
+};
+
+
+
   return (
     <form className="profile-form" onSubmit={handleSubmit}>
       <h2>내 프로필 생성</h2>
@@ -210,7 +223,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ token }) => {
           이력서 (CV) <span className="required">*</span>
         </label>
         <label htmlFor="cv-upload" className="file-upload-label">
-          <UploadIcon />
+          <UploadIcon size={200}/>
           <span className="file-name">
             {cvFile ? cvFile.name : 'PDF 파일만 업로드 가능해요.'}
           </span>
@@ -223,6 +236,15 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ token }) => {
             onChange={handleFileChange}
           />
         </label>
+          {(cvFile !== null) && (
+            <button
+              type="button"
+              className="delete-button-File"
+              onClick={() => handleRemoveFile()}
+            >
+              삭제
+            </button>
+          )}
       </div>
 
       {/* Action Buttons */}

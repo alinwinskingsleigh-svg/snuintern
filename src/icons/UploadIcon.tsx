@@ -1,8 +1,12 @@
-const UploadIcon = () => {
+interface UploadIconProps {
+  size?: number; // size는 숫자이고, 입력 안 하면 기본값을 쓸 거라 ?를 붙였어요
+}
+
+const UploadIcon = ({ size = 20}: UploadIconProps) => {
   return (
     <svg
-      width="20"
-      height="20"
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
