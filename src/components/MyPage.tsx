@@ -73,8 +73,8 @@ const MyPage: React.FC<MyPageProps> = ({ token }) => {
           내 정보
         </button>
 
-        {/* '내 정보' 탭일 때만 우측에 버튼 표시 */}
-        {activeTab === 'profile' && !profileLoading && (
+        {/* [수정] 로딩이 끝난 후, (내 정보 탭이거나 OR 프로필이 없을 때) 버튼 표시 */}
+        {!profileLoading && (activeTab === 'profile' || !profile) && (
           <button
             className="btn-create-profile-small"
             onClick={handleMoveToProfile}
