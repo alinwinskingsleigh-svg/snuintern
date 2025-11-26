@@ -41,17 +41,23 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
           <div className="profile-item-name">
             <span className="value">{profile.name}</span>
           </div>
-          <div className="profile-item">
-            <span className="label">이메일</span>
+          <div className="profile-item-email">
             <span className="value">{profile.email}</span>
           </div>
-          <div className="profile-item">
-            <span className="label">학번</span>
-            <span className="value">{profile.enrollYear}</span>
-          </div>
-          <div className="profile-item">
-            <span className="label">학과</span>
-            <span className="value">{profile.department}</span>
+          <div className="profile-item-department">
+            <span className="value">
+              {(() => {
+                const [main, sub] = profile.department.split(','); 
+                
+                return (
+                  <>
+                    {main.trim()}
+                    {/* 쉼표 대신 ' • ' (중간점과 양옆 공백) 적용 */}
+                    {sub && ` • ${sub.trim()}(복수전공)`}
+                  </>
+                );
+              })()}
+              {''}{String(profile.enrollYear).slice(-2)}학번</span>
           </div>
         </div>
       )}
