@@ -1,3 +1,6 @@
+/* ----------------------------------------------------
+   1. 기존 마이페이지 카드 리스트 (Grid 형태 - 유지)
+---------------------------------------------------- */
 .mypage-card-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -5,7 +8,6 @@
   width: 100%;
 }
 
-/* ... (기존 스타일 유지) ... */
 .mypage-card-list .post-card {
   background-color: #ffffff;
   border: 1px solid #f0f0f0;
@@ -20,4 +22,133 @@
   min-height: 220px;
   overflow: hidden;
   height: auto;
+}
+
+/* 리스트 컨테이너 */
+.bookmark-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  /* 만약 카드가 너무 길어지면 가로 스크롤이 생기게 하려면 아래 속성 추가 */
+  /* overflow-x: auto; */
+}
+
+/* 개별 카드: 가로(Row) 배치 */
+.bookmark-row-card {
+  display: flex;
+  align-items: center; /* 세로 중앙 정렬 */
+  justify-content: space-between; /* 양 끝 정렬 */
+  padding: 24px 30px;
+  background-color: #ffffff;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  transition: all 0.2s ease;
+
+  /* ★ 핵심 수정 1: 너비 설정 */
+  width: 100%; /* 기본적으로 부모 너비를 꽉 채움 */
+  min-width: fit-content; /* ★ 내용물이 많으면 찌그러지지 않고 카드 자체가 길어짐 */
+  box-sizing: border-box;
+}
+
+/* 호버 효과 */
+.bookmark-row-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  border-color: #5c6ac4;
+}
+
+/* ----------------------------------------------------
+   [구역 1] 왼쪽: 북마크 아이콘
+---------------------------------------------------- */
+.bookmark-row-card__left {
+  margin-right: 24px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0; /* 아이콘 크기 고정 */
+}
+
+.bookmark-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  font-size: 28px;
+  color: #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s, transform 0.2s;
+}
+
+.bookmark-btn:hover {
+  transform: scale(1.1);
+}
+
+.bookmark-btn::before {
+  content: "☆";
+}
+
+.bookmark-btn.active {
+  color: #ffd700;
+}
+.bookmark-btn.active::before {
+  content: "★";
+}
+
+/* ----------------------------------------------------
+   [구역 2] 가운데: 회사 이름
+---------------------------------------------------- */
+.bookmark-row-card__center {
+  flex: 1; /* 남은 공간 차지 */
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding-right: 20px;
+}
+
+.bookmark-row-card__center .post-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #333;
+
+  /* ★ 핵심 수정 2: 텍스트 줄바꿈 절대 금지 */
+  white-space: nowrap;
+}
+
+/* ----------------------------------------------------
+   [구역 3] 오른쪽: 직무 + D-day (가로 배치)
+---------------------------------------------------- */
+.bookmark-row-card__right {
+  display: flex;
+  flex-direction: row; /* 가로 배치 */
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px; /* 간격 넓힘 */
+
+  /* ★ 핵심 수정 3: 오른쪽 내용도 줄바꿈 금지 및 공간 확보 */
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.bookmark-row-card__right .job-title {
+  font-size: 1rem;
+  color: #555;
+  font-weight: 500;
+  margin: 0;
+}
+
+.bookmark-row-card__right .d-day {
+  font-size: 0.95rem;
+  color: #0d00ff;
+  font-weight: 600;
+  background-color: #f0f4ff;
+  padding: 6px 12px;
+  border-radius: 20px;
+}
+
+.bookmark-row-card__right .d-day.urgent {
+  color: #e53935;
+  background-color: #fff0f0;
 }
