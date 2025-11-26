@@ -56,9 +56,7 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
                     {sub && ` • ${sub.trim()}(복수전공)`}
                   </>
                 );
-              })()}
-              {''}
-              {String(profile.enrollYear).slice(-2)}학번
+              })()} {String(profile.enrollYear).slice(-2)}학번
             </span>
           </div>
         </div>

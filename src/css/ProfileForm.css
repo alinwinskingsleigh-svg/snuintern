@@ -135,22 +135,22 @@
 }
 
 .delete-button-File {
-    height: 32px; /* 전체 높이보다 작게 */
-    padding: 0 10px;
-    font-size: 12px;
-    color:#333;
-    background-color: #fff;
-    border:#333 solid 1px;
-    border-radius: 6px;
-    box-sizing: border-box;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;  
+  height: 32px; /* 전체 높이보다 작게 */
+  padding: 0 10px;
+  font-size: 12px;
+  color: #333;
+  background-color: #fff;
+  border: #333 solid 1px;
+  border-radius: 6px;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .file-upload-label:hover {
@@ -233,7 +233,7 @@
 .delete-button-File {
   width: auto;
   padding: 0 14px;
-  background-color: rgba(255, 255, 255, 0.028)000;
+  background-color: rgba(255, 255, 255, 0.028) 000;
   border: 1px solid #000000;
   border-radius: 8px;
   color: #000000;
@@ -246,4 +246,32 @@
 
 .delete-button-File:hover {
   background-color: #ffffff6d;
+}
+
+/* [✨ 추가] 에러 메시지 스타일 */
+.error-message {
+  color: #ff5252; /* 붉은색 텍스트 */
+  font-size: 13px; /* 글씨 크기 */
+  margin-top: 6px; /* 입력창과의 간격 */
+  font-weight: 500;
+  text-align: left; /* 왼쪽 정렬 */
+}
+
+/* [✨ 추가] 에러 발생 시 입력창 테두리 강조 */
+.input-error {
+  border-color: #ff5252 !important; /* 기존 border 색상을 덮어쓰기 위해 !important 사용 가능 */
+  background-color: #fff8f8; /* 아주 연한 붉은 배경 (선택사항) */
+}
+
+/* [✨ 추가] 에러 발생 시 파일 업로드 라벨 테두리 */
+.file-upload-label.input-error {
+  border-color: #ff5252;
+  border-style: solid; /* 점선(dashed) 대신 실선으로 강조하고 싶다면 변경 */
+  background-color: #fff8f8;
+}
+
+/* 기존 focus 스타일과 충돌하지 않도록 주의 */
+.form-group input.input-error:focus {
+  border-color: #ff5252; /* 포커스 되어도 에러 상태면 붉은색 유지 */
+  box-shadow: 0 0 0 1px #ff5252; /* 포커스 링 효과 (선택사항) */
 }

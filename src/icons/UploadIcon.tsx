@@ -2,7 +2,7 @@ interface UploadIconProps {
   size?: number; // size는 숫자이고, 입력 안 하면 기본값을 쓸 거라 ?를 붙였어요
 }
 
-const UploadIcon = ({ size = 20}: UploadIconProps) => {
+const UploadIcon = ({ size = 20 }: UploadIconProps) => {
   return (
     <svg
       width={size}

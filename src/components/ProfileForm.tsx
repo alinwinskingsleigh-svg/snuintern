@@ -13,29 +13,29 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ token }) => {
 
   // 상태 관리
   const [studentId, setStudentId] = useState<string>('25');
-  // [수정] 학과를 리스트 형태로 관리 (초기값: 입력창 1개)
   const [departments, setDepartments] = useState<string[]>([]);
   const [cvFile, setCvFile] = useState<File | null>(null);
+
+  // 에러 상태 관리
+  const [errors, setErrors] = useState<{
+    studentId?: string;
+    departments?: string;
+    cvFile?: string;
+  }>({});
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        // 1. GET으로 정보 가져오기 (저장된 데이터: "컴퓨터공학부,조경시스템")
         const data = await getMe(token);
 
         if (data) {
-          // 2. 학번 복구 (2021 -> 21)
           if (data.enrollYear) {
             setStudentId(String(data.enrollYear).slice(-2));
           }
 
-          // 3. 학과 칸 복구 (핵심!)
-          // "컴퓨터공학부,조경시스템" 문자열을 -> ['컴퓨터공학부', '조경시스템'] 배열로 변환
           if (data.department) {
             const savedDepartments = data.department.split(',');
             setDepartments(savedDepartments);
-            // setDepartments에 배열을 넣으면,
-            // 아래의 map() 함수가 돌면서 자동으로 입력창을 2개(또는 N개) 만들어줍니다.
           }
         }
       } catch (error) {
@@ -50,24 +50,27 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ token }) => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       setCvFile(e.target.files[0]);
+      setErrors((prev) => ({ ...prev, cvFile: undefined }));
     }
   };
 
-  // [기능] 학과 입력값 변경
+  // 학과 입력값 변경
   const handleDepartmentChange = (index: number, value: string) => {
     const newDepts = [...departments];
     newDepts[index] = value;
     setDepartments(newDepts);
+    if (value.trim() !== '') {
+      setErrors((prev) => ({ ...prev, departments: undefined }));
+    }
   };
 
-  // [기능] 학과 입력창 추가 (새로운 줄 생성)
+  // 학과 입력창 추가
   const handleAddDepartmentRow = () => {
-    setDepartments([...departments, '']); // 빈 문자열 추가 -> 새 입력창 렌더링
+    setDepartments([...departments, '']);
   };
 
-  // [기능] 학과 입력창 삭제
+  // 학과 입력창 삭제
   const handleRemoveDepartmentRow = (index: number) => {
-    // 입력창이 1개 남았을 때는 삭제 대신 내용만 비우기 (선택 사항)
     if (departments.length === 1) {
       handleDepartmentChange(index, '');
       return;
@@ -76,7 +79,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ token }) => {
     setDepartments(newDepts);
   };
 
-  // [유틸] 랜덤 문자열 생성
+  // 랜덤 문자열 생성
   const generateRandomString = (length: number) => {
     const characters =
       'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -89,7 +92,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ token }) => {
     return result;
   };
 
-  // [유틸] 날짜 문자열 생성 (YYYYMMDD)
+  // 날짜 문자열 생성
   const getFormattedDate = () => {
     const date = new Date();
     const year = date.getFullYear();
@@ -98,38 +101,67 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ token }) => {
     return `${year}${month}${day}`;
   };
 
-  // [기능] 저장 버튼 핸들러
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  // 유효성 검사 함수
+  const validate = () => {
+    const newErrors: {
+      studentId?: string;
+      departments?: string;
+      cvFile?: string;
+    } = {};
+    let isValid = true;
 
-    // 빈 입력값 제거
+    // 1. 학번 검사
+    if (!studentId.trim()) {
+      newErrors.studentId = '학번을 입력해주세요.';
+      isValid = false;
+    } else if (!/^\d{2}$/.test(studentId)) {
+      // [✨ 유지] 숫자 2자리인지 검사 (입력 자체는 자유롭지만, 저장 시 여기서 걸러짐)
+      newErrors.studentId = '학번은 2자리 정수로 입력해주세요. (e.g. 25)';
+      isValid = false;
+    }
+
+    // 2. 학과 검사
     const validDepartments = departments
       .map((d) => d.trim())
       .filter((d) => d !== '');
-
-    if (!studentId || validDepartments.length === 0) {
-      alert('학번과 학과를 입력해주세요.');
-      return;
+    if (validDepartments.length === 0) {
+      newErrors.departments = '최소 하나의 학과를 입력해주세요.';
+      isValid = false;
     }
 
+    // 3. 파일 검사
     if (!cvFile) {
-      alert('이력서(PDF) 파일을 업로드해주세요.');
+      newErrors.cvFile = '이력서(PDF) 파일을 업로드해주세요.';
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return { isValid, validDepartments };
+  };
+
+  // 저장 버튼 핸들러
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const { isValid, validDepartments } = validate();
+
+    if (!isValid) {
       return;
     }
 
     try {
       const randomStr = generateRandomString(10);
       const dateStr = getFormattedDate();
-      const fileName = cvFile.name;
+      const fileName = cvFile!.name;
 
       const generatedCvKey = `static/private/CV/${randomStr}_${dateStr}/${fileName}`;
 
+      // validate를 통과했으므로 studentId는 무조건 숫자 2자리 문자열임이 보장됨
       let enrollYearNum = parseInt(studentId, 10);
       if (enrollYearNum < 100) {
         enrollYearNum += 2000;
       }
 
-      // 배열을 콤마(,)로 합쳐서 전송
       const formattedDepartment = validDepartments.join(',');
 
       await putMe(token, {
@@ -146,18 +178,13 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ token }) => {
     }
   };
 
-// [기능] 파일 삭제 핸들러
-const handleRemoveFile = () => {
-  setCvFile(null); // 1. 상태에서 파일 비우기
-  
-  // 3. input 태그 초기화 (같은 파일을 다시 올릴 때를 대비해 필수!)
-  const fileInput = document.getElementById('cv-upload') as HTMLInputElement;
-  if (fileInput) {
-    fileInput.value = '';
-  }
-};
-
-
+  const handleRemoveFile = () => {
+    setCvFile(null);
+    const fileInput = document.getElementById('cv-upload') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = '';
+    }
+  };
 
   return (
     <form className="profile-form" onSubmit={handleSubmit}>
@@ -173,10 +200,20 @@ const handleRemoveFile = () => {
             type="text"
             id="studentId"
             value={studentId}
-            onChange={(e) => setStudentId(e.target.value)}
+            className={errors.studentId ? 'input-error' : ''}
+            // [✨ 수정] maxLength 삭제, replace 로직 삭제 -> 자유롭게 입력 가능
+            onChange={(e) => {
+              setStudentId(e.target.value);
+              // 입력 시 에러가 있으면 해제
+              if (errors.studentId)
+                setErrors((prev) => ({ ...prev, studentId: undefined }));
+            }}
             placeholder="예: 25"
           />
         </div>
+        {errors.studentId && (
+          <div className="error-message">{errors.studentId}</div>
+        )}
       </div>
 
       {/* 학과 (다중 입력) */}
@@ -190,6 +227,7 @@ const handleRemoveFile = () => {
             <div className="input-button-group" key={index}>
               <input
                 type="text"
+                className={errors.departments ? 'input-error' : ''}
                 value={dept}
                 onChange={(e) => handleDepartmentChange(index, e.target.value)}
                 placeholder="학과 입력"
@@ -207,7 +245,10 @@ const handleRemoveFile = () => {
           ))}
         </div>
 
-        {/* [수정] 하단에 '학과 추가' 버튼 배치 */}
+        {errors.departments && (
+          <div className="error-message">{errors.departments}</div>
+        )}
+
         <button
           type="button"
           className="add-row-button"
@@ -222,8 +263,12 @@ const handleRemoveFile = () => {
         <label htmlFor="cv-upload">
           이력서 (CV) <span className="required">*</span>
         </label>
-        <label htmlFor="cv-upload" className="file-upload-label">
-          <UploadIcon size={200}/>
+
+        <label
+          htmlFor="cv-upload"
+          className={`file-upload-label ${errors.cvFile ? 'input-error' : ''}`}
+        >
+          <UploadIcon size={200} />
           <span className="file-name">
             {cvFile ? cvFile.name : 'PDF 파일만 업로드 가능해요.'}
           </span>
@@ -236,15 +281,18 @@ const handleRemoveFile = () => {
             onChange={handleFileChange}
           />
         </label>
-          {(cvFile !== null) && (
-            <button
-              type="button"
-              className="delete-button-File"
-              onClick={() => handleRemoveFile()}
-            >
-              삭제
-            </button>
-          )}
+
+        {errors.cvFile && <div className="error-message">{errors.cvFile}</div>}
+
+        {cvFile !== null && (
+          <button
+            type="button"
+            className="delete-button-File"
+            onClick={() => handleRemoveFile()}
+          >
+            삭제
+          </button>
+        )}
       </div>
 
       {/* Action Buttons */}
