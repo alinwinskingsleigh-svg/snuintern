@@ -134,6 +134,25 @@
   display: flex;
 }
 
+.delete-button-File {
+    height: 32px; /* 전체 높이보다 작게 */
+    padding: 0 10px;
+    font-size: 12px;
+    color:#333;
+    background-color: #fff;
+    border:#333 solid 1px;
+    border-radius: 6px;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;  
+}
+
 .file-upload-label:hover {
   border-color: #5c6ac4;
   background-color: #f0f4ff;
