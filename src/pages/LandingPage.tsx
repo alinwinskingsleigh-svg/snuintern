@@ -18,7 +18,6 @@ const LandingPage: React.FC = () => {
   const [bookmarkRefreshKey, setBookmarkRefreshKey] = useState(0);
 
   const [isFilterOpen, setIsFilterOpen] = useState(true);
-
   const toggleFilter = useCallback(() => {
     setIsFilterOpen((prev) => !prev);
   }, []);

@@ -1,6 +1,13 @@
-/* src/css/PostCard.css */
+/* src/css/MyPagePostCard.css */
 
-.post-card {
+.mypage-card-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  width: 100%;
+}
+
+.mypage-card-list .post-card {
   background-color: #ffffff;
   border: 1px solid #f0f0f0;
   border-radius: 16px;
@@ -16,42 +23,39 @@
   height: auto;
 }
 
-.post-card:hover {
+.mypage-card-list .post-card:hover {
   transform: translateY(-6px);
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
   border-color: #5c6ac4;
 }
 
-/* --- 헤더 (로고) --- */
-.post-card__header {
+.mypage-card-list .post-card__header {
   margin-bottom: 12px;
 }
 
-.post-card__logo {
+.mypage-card-list .post-card__logo {
   width: 48px;
   height: 48px;
   background-color: #e6f0ff;
   border-radius: 8px;
 }
 
-/* --- ✨ 제목 & 북마크 한 줄 배치 ✨ --- */
-.post-card__title-row {
+/* ✨ 마이페이지에서도 제목 옆 별 배치 ✨ */
+.mypage-card-list .post-card__title-row {
   display: flex;
-  justify-content: space-between; /* 양 끝 정렬 */
+  justify-content: space-between;
   align-items: flex-start;
   gap: 12px;
   margin-bottom: 8px;
 }
 
-.post-card__title {
+.mypage-card-list .post-card__title {
   font-size: 1.2rem;
   font-weight: 700;
   color: #333;
   line-height: 1.4;
   margin: 0;
-  flex: 1; /* 제목이 남은 공간 차지 */
-
-  /* 말줄임표 처리 */
+  flex: 1;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   line-clamp: 2;
@@ -59,42 +63,41 @@
   overflow: hidden;
 }
 
-/* 북마크 버튼 스타일 */
-.post-card__bookmark-button {
+.mypage-card-list .post-card__bookmark-button {
   all: unset;
   cursor: pointer;
   font-size: 24px;
-  color: #ddd; /* 빈 별 색상 */
+  color: #ddd;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: color 0.2s ease, transform 0.2s ease;
-  flex-shrink: 0; /* 크기 줄어들지 않음 */
+  flex-shrink: 0;
   width: 28px;
   height: 28px;
 }
 
-.post-card__bookmark-button::before {
-  content: "☆"; /* 빈 별 */
+.mypage-card-list .post-card__bookmark-button::before {
+  content: "☆";
 }
 
-.post-card__bookmark-button:hover {
+.mypage-card-list .post-card__bookmark-button:hover {
   transform: scale(1.1);
   color: #5c6ac4;
 }
-.post-card__bookmark-button:hover::before {
-  content: "★"; /* 꽉 찬 별 */
+.mypage-card-list .post-card__bookmark-button:hover::before {
+  content: "★";
 }
 
-.post-card__bookmark-button--bookmarked {
-  color: #ffd700; /* 노란색 */
+.mypage-card-list .post-card__bookmark-button--bookmarked {
+  color: #ffd700;
 }
-.post-card__bookmark-button--bookmarked::before {
-  content: "★"; /* 꽉 찬 별 */
+.mypage-card-list .post-card__bookmark-button--bookmarked::before {
+  content: "★";
 }
 
-/* --- 정보 (회사명, D-Day) --- */
-.post-card__info {
+/* 나머지 정보 스타일 */
+.mypage-card-list .post-card__info {
   display: flex;
   align-items: center;
   font-size: 0.95rem;
@@ -103,22 +106,22 @@
   margin-bottom: 16px;
 }
 
-.post-card__info-separator {
+.mypage-card-list .post-card__info-separator {
   margin: 0 8px;
   color: #ccc;
   font-size: 0.8rem;
 }
 
-.post-card__d-day {
+.mypage-card-list .post-card__d-day {
   color: #888;
 }
 
-.post-card__d-day--urgent {
+.mypage-card-list .post-card__d-day--urgent {
   color: #ff5252;
   font-weight: 700;
 }
 
-.post-card__slogan {
+.mypage-card-list .post-card__slogan {
   font-size: 0.9rem;
   color: #888;
   line-height: 1.5;
@@ -130,7 +133,7 @@
   overflow: hidden;
 }
 
-.post-card__domain {
+.mypage-card-list .post-card__domain {
   display: inline-block;
   background-color: #f4f6f8;
   color: #5c6ac4;
