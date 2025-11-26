@@ -38,8 +38,7 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
         <div className="profile-details">
           {/* 상단 헤더(제목, 수정 버튼) 삭제됨 -> MyPage 탭 바로 이동 */}
 
-          <div className="profile-item">
-            <span className="label">이름</span>
+          <div className="profile-item-name">
             <span className="value">{profile.name}</span>
           </div>
           <div className="profile-item">

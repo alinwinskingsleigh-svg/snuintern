@@ -49,10 +49,13 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ token }) => {
 
   // [유틸] 랜덤 문자열 생성
   const generateRandomString = (length: number) => {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const characters =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let result = '';
     for (let i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * characters.length));
+      result += characters.charAt(
+        Math.floor(Math.random() * characters.length)
+      );
     }
     return result;
   };
@@ -71,13 +74,15 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ token }) => {
     e.preventDefault();
 
     // 빈 입력값 제거
-    const validDepartments = departments.map(d => d.trim()).filter(d => d !== '');
+    const validDepartments = departments
+      .map((d) => d.trim())
+      .filter((d) => d !== '');
 
     if (!studentId || validDepartments.length === 0) {
       alert('학번과 학과를 입력해주세요.');
       return;
     }
-    
+
     if (!cvFile) {
       alert('이력서(PDF) 파일을 업로드해주세요.');
       return;
@@ -87,9 +92,9 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ token }) => {
       const randomStr = generateRandomString(10);
       const dateStr = getFormattedDate();
       const fileName = cvFile.name;
-      
+
       const generatedCvKey = `static/private/CV/${randomStr}_${dateStr}/${fileName}`;
-      
+
       let enrollYearNum = parseInt(studentId, 10);
       if (enrollYearNum < 100) {
         enrollYearNum += 2000;
@@ -97,12 +102,6 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ token }) => {
 
       // 배열을 콤마(,)로 합쳐서 전송
       const formattedDepartment = validDepartments.join(',');
-
-      console.log('Sending Payload:', {
-        enrollYear: enrollYearNum,
-        department: formattedDepartment,
-        cvKey: generatedCvKey
-      });
 
       await putMe(token, {
         enrollYear: enrollYearNum,
@@ -112,7 +111,6 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ token }) => {
 
       alert('프로필이 성공적으로 저장되었습니다.');
       navigate(-1);
-
     } catch (error) {
       console.error('프로필 저장 실패:', error);
       alert('프로필 저장 중 오류가 발생했습니다.');
@@ -122,7 +120,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ token }) => {
   return (
     <form className="profile-form" onSubmit={handleSubmit}>
       <h2>내 프로필 생성</h2>
-      
+
       {/* 학번 */}
       <div className="form-group">
         <label htmlFor="studentId">
@@ -144,7 +142,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ token }) => {
         <label>
           학과 <span className="required">*</span>
         </label>
-        
+
         <div className="department-inputs-container">
           {departments.map((dept, index) => (
             <div className="input-button-group" key={index}>
@@ -180,27 +178,26 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ token }) => {
         <label htmlFor="cv-upload">
           이력서 (CV) <span className="required">*</span>
         </label>
-        <label
-          htmlFor="cv-upload"
-          className="file-upload-label"
-        >
+        <label htmlFor="cv-upload" className="file-upload-label">
           <UploadIcon />
-          <span className="file-name">{cvFile ? cvFile.name : 'PDF 파일만 업로드 가능해요.'}</span>
-          <input 
-            id="cv-upload" 
-            name="cv-upload" 
-            type="file" 
-            className="sr-only" 
-            accept=".pdf" 
-            onChange={handleFileChange} 
+          <span className="file-name">
+            {cvFile ? cvFile.name : 'PDF 파일만 업로드 가능해요.'}
+          </span>
+          <input
+            id="cv-upload"
+            name="cv-upload"
+            type="file"
+            className="sr-only"
+            accept=".pdf"
+            onChange={handleFileChange}
           />
         </label>
       </div>
 
       {/* Action Buttons */}
       <div className="action-buttons">
-        <button 
-          type="button" 
+        <button
+          type="button"
           className="cancel-button"
           onClick={() => navigate(-1)}
         >
