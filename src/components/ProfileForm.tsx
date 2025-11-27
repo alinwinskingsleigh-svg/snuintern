@@ -12,8 +12,8 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ token }) => {
   const navigate = useNavigate();
 
   // 상태 관리
-  const [studentId, setStudentId] = useState<string>('25');
-  const [departments, setDepartments] = useState<string[]>([]);
+  const [studentId, setStudentId] = useState<string>('');
+  const [departments, setDepartments] = useState<string[]>(['']);
   const [cvFile, setCvFile] = useState<File | null>(null);
 
   // 에러 상태 관리
@@ -21,6 +21,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ token }) => {
     studentId?: string;
     departments?: string;
     cvFile?: string;
+    cvFileType?: string;
   }>({});
 
   useEffect(() => {
@@ -47,9 +48,12 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ token }) => {
   }, [token]);
 
   // 파일 선택 핸들러
+// 파일 선택 핸들러
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // 1. 파일이 선택되었는지 확인
     if (e.target.files && e.target.files.length > 0) {
-      setCvFile(e.target.files[0]);
+      const file = e.target.files[0];
+      setCvFile(file);
       setErrors((prev) => ({ ...prev, cvFile: undefined }));
     }
   };
@@ -107,6 +111,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ token }) => {
       studentId?: string;
       departments?: string;
       cvFile?: string;
+      cvFileType?: string;
     } = {};
     let isValid = true;
 
@@ -132,6 +137,12 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ token }) => {
     // 3. 파일 검사
     if (!cvFile) {
       newErrors.cvFile = '이력서(PDF) 파일을 업로드해주세요.';
+      isValid = false;
+    }
+
+    // 4. 파일 타입 검사
+    if (cvFile && newErrors.cvFileType !== 'application/pdf, .pdf') {
+      newErrors.cvFile = 'PDF 파일만 업로드 가능합니다.';
       isValid = false;
     }
 
@@ -277,7 +288,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ token }) => {
             name="cv-upload"
             type="file"
             className="sr-only"
-            accept=".pdf"
+            accept="application/pdf,.pdf"
             onChange={handleFileChange}
           />
         </label>
