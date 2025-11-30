@@ -1,130 +1,108 @@
+// src/components/PostCard.tsx
 import { useState } from 'react';
 import { bookmarkPost, unbookmarkPost } from '../api/post_api';
 import type { Post } from '../types/post';
 import '../css/PostCard.css';
 import { DOMAINS } from '../constants/post';
+// TODO: 로그인 상태를 확인하는 훅 (예: useAuth)이 있다고 가정합니다.
+// const useAuth = () => ({ isAuthenticated: !!localStorage.getItem('token') });
 
 interface PostCardProps {
   post: Post;
+  // 찜하기 버튼 클릭 시 로그인 필요 알림을 외부에 전달하는 핸들러
   onLoginRequired: () => void;
+  // 찜하기 성공/실패 후 목록을 새로고침할 필요가 있음을 외부에 알리는 핸들러
   refreshPosts: () => void;
 }
 
 const PostCard = ({ post, onLoginRequired, refreshPosts }: PostCardProps) => {
+  // Post 객체의 isBookmarked 상태를 따라가지만, Optimistic UI를 위해 로컬 상태도 사용
   const [isBookmarked, setIsBookmarked] = useState(post.isBookmarked);
+  // const { isAuthenticated } = useAuth(); // TODO: 실제 인증 훅 사용
+
+  // 임시: localStorage에 token이 있으면 로그인된 것으로 간주 (usePosts.js 참고)
   const isAuthenticated = !!localStorage.getItem('token');
 
   // 찜하기 핸들러
-  const handleBookmarkToggle = async (e: React.MouseEvent) => {
-    e.stopPropagation();
-
+  const handleBookmarkToggle = async () => {
     if (!isAuthenticated) {
+      // 스펙: 로그인하지 않았다면 찜하기 버튼 클릭 시 로그인 유도 모달이 나타나도록
       onLoginRequired();
       return;
     }
 
+    // Optimistic UI 업데이트: 로컬 상태 먼저 변경
     const newBookmarkStatus = !isBookmarked;
     setIsBookmarked(newBookmarkStatus);
 
     try {
       if (newBookmarkStatus) {
+        // 찜하기: POST api/post/{post_id}/bookmark
         await bookmarkPost(post.id);
       } else {
+        // 찜하기 해제: DELETE api/post/{post_id}/bookmark
         await unbookmarkPost(post.id);
       }
+
+      // 성공 후 목록 새로고침 (데이터 refetch)
       refreshPosts();
     } catch (error) {
       console.error(
         `Failed to toggle bookmark status for post ${post.id}`,
         error
       );
+      // 실패 시 원래 상태로 롤백
       setIsBookmarked(!newBookmarkStatus);
       alert('찜하기/해제에 실패했습니다. 다시 시도해주세요.');
-      refreshPosts();
+      refreshPosts(); // 강제 새로고침 (안정성)
     }
   };
 
-  // ✅ [수정] D-Day 계산 로직 (상시모집 처리 추가)
-  const calculateDday = () => {
-    // 1. 문자열 '상시모집', 'ALWAYS' 등 체크
-    if (
-      post.employmentEndDate === '상시모집' ||
-      post.employmentEndDate === '상시' ||
-      post.employmentEndDate === 'ALWAYS'
-    ) {
-      return { diffDays: 999, text: '상시모집', isAlways: true };
-    }
+  // 마감일 D-Day 계산
+  const dDayText = (() => {
+    // 상시 모집: end date가 없거나 빈 값인 경우
+    if (!post.employmentEndDate) return '상시 모집';
 
     const endDate = new Date(post.employmentEndDate);
+    if (isNaN(endDate.getTime())) return '상시 모집';
 
-    // 2. 날짜 변환 실패(Invalid Date) 체크
-    if (isNaN(endDate.getTime())) {
-      return { diffDays: 999, text: '상시모집', isAlways: true };
-    }
-
-    const today = new Date();
+    const today = new Date(); // 오늘 날짜
+    // 시간은 제외하고 날짜만 비교하기 위해 자정으로 설정
     endDate.setHours(0, 0, 0, 0);
     today.setHours(0, 0, 0, 0);
 
     const diffTime = endDate.getTime() - today.getTime();
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-    return {
-      diffDays,
-      text:
-        diffDays < 0 ? '마감' : diffDays === 0 ? '오늘 마감' : `D-${diffDays}`,
-      isAlways: false,
-    };
-  };
-
-  const { diffDays, text: dDayText, isAlways } = calculateDday();
-
-  // 상시모집이 아니면서 7일 이내인 경우만 '긴급' 표시
-  const isUrgent = !isAlways && diffDays <= 0;
-
+    if (diffDays < 0) return '마감';
+    // 디데이 표기: 남은 일 수이므로 D-0, D-1, ... 형식으로 표시
+    return `D-${diffDays}`;
+  })();
   const domainLabel =
     DOMAINS.find((d) => d.value === post.domain)?.label || post.domain;
 
   return (
     <div className="post-card">
-      {/* 1. 헤더: 로고만 남김 */}
       <div className="post-card__header">
+        {/* 스펙: 회사 로고 블럭 처리 */}
         <div className="post-card__logo">{/* 로고 블럭 */}</div>
-      </div>
 
-      {/* 2. 제목 + 북마크 버튼 */}
-      <div className="post-card__title-row">
-        <h3 className="post-card__title">{post.positionTitle}</h3>
-
+        {/* 북마크 버튼 */}
         <button
           onClick={handleBookmarkToggle}
           className={`post-card__bookmark-button ${
             isBookmarked ? 'post-card__bookmark-button--bookmarked' : ''
           }`}
-          title={isBookmarked ? '찜 해제' : '찜하기'}
         >
-          {/* CSS ::before로 별 아이콘 처리 */}
+          {/* 별 아이콘은 이제 PostCard.css에서 ::before 가상 요소를 통해 렌더링됩니다. */}
         </button>
       </div>
 
-      {/* 3. 회사명 및 D-Day 정보 */}
-      <div className="post-card__info">
-        <span className="post-card__company-name">{post.companyName}</span>
-        <span className="post-card__info-separator">•</span>
-        <span
-          className={`post-card__d-day ${
-            isUrgent ? 'post-card__d-day--urgent' : ''
-          } ${isAlways ? 'post-card__d-day--always' : ''}`}
-        >
-          {dDayText}
-        </span>
-      </div>
-
-      {/* 4. 슬로건 */}
-      {post.slogan && <p className="post-card__slogan">{post.slogan}</p>}
-
-      {/* 5. 하단 태그 */}
+      <h3 className="post-card__title">{post.positionTitle}</h3>
       <div className="post-card__domain">{domainLabel}</div>
+      <p className="post-card__company-name">{post.companyName}</p>
+      <p className="post-card__d-day">{dDayText}</p>
+      <p className="post-card__slogan">{post.slogan}</p>
     </div>
   );
 };
