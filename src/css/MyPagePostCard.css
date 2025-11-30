@@ -2,8 +2,8 @@
    1. 기존 마이페이지 카드 리스트 (Grid 형태 - 유지)
 ---------------------------------------------------- */
 .mypage-card-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 24px;
   width: 100%;
 }
@@ -101,20 +101,12 @@
    [구역 2] 가운데: 회사 이름
 ---------------------------------------------------- */
 .bookmark-row-card__center {
-  flex: 1; /* 남은 공간 차지 */
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  padding-right: 20px;
-}
-
-.bookmark-row-card__center .post-title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #333;
-
-  /* ★ 핵심 수정 2: 텍스트 줄바꿈 절대 금지 */
-  white-space: nowrap;
+  font-weight: bold;
+  align-items: right;
+  padding-right: 700px;
+  white-space: nowrap; /* ★ 핵심 수정 2: 텍스트 줄바꿈 절대 금지 */
+  flex: 1;
+  text-align: left;
 }
 
 /* ----------------------------------------------------
