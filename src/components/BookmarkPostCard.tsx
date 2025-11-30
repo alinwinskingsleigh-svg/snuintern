@@ -18,7 +18,21 @@ const BookmarkPostCard: React.FC<BookmarkPostCardProps> = ({
 
   // 2. D-day 계산 로직 (PostCard.tsx에서 가져옴)
   const calculateDday = () => {
+    // 상시모집 처리: 명시적 문자열이나 빈 값, 또는 잘못된 날짜는 "상시 모집"으로 처리
+    if (
+      !post.employmentEndDate ||
+      post.employmentEndDate === '상시모집' ||
+      post.employmentEndDate === '상시' ||
+      post.employmentEndDate === 'ALWAYS'
+    ) {
+      return { diffDays: Infinity, text: '상시 모집', isAlways: true } as const;
+    }
+
     const endDate = new Date(post.employmentEndDate);
+    if (isNaN(endDate.getTime())) {
+      return { diffDays: Infinity, text: '상시 모집', isAlways: true } as const;
+    }
+
     const today = new Date();
     endDate.setHours(0, 0, 0, 0);
     today.setHours(0, 0, 0, 0);
@@ -30,11 +44,12 @@ const BookmarkPostCard: React.FC<BookmarkPostCardProps> = ({
       diffDays,
       text:
         diffDays < 0 ? '마감' : diffDays === 0 ? '오늘 마감' : `D-${diffDays}`,
-    };
+      isAlways: false,
+    } as const;
   };
 
-  const { diffDays, text: dDayText } = calculateDday();
-  const isDue = diffDays <= 0;
+  const { diffDays, text: dDayText, isAlways } = calculateDday();
+  const isDue = !isAlways && diffDays <= 0;
 
   // 3. 찜 해제 핸들러 (PostCard.tsx 로직 응용)
   const handleBookmarkToggle = async (e: React.MouseEvent) => {
