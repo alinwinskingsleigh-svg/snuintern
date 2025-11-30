@@ -71,7 +71,8 @@ const PostCard = ({ post, onLoginRequired, refreshPosts }: PostCardProps) => {
 
     return {
       diffDays,
-      text: diffDays < 0 ? '마감' : diffDays === 0 ? '오늘 마감' : `D-${diffDays}`,
+      text:
+        diffDays < 0 ? '마감' : diffDays === 0 ? '오늘 마감' : `D-${diffDays}`,
       isAlways: false,
     };
   };

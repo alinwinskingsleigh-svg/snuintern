@@ -48,7 +48,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ token }) => {
   }, [token]);
 
   // 파일 선택 핸들러
-// 파일 선택 핸들러
+  // 파일 선택 핸들러
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // 1. 파일이 선택되었는지 확인
     if (e.target.files && e.target.files.length > 0) {
@@ -141,7 +141,11 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ token }) => {
     }
 
     // 4. 파일 타입 검사
-    if (cvFile && newErrors.cvFileType !== '.pdf' && cvFile.type !== 'application/pdf') {
+    if (
+      cvFile &&
+      newErrors.cvFileType !== '.pdf' &&
+      cvFile.type !== 'application/pdf'
+    ) {
       newErrors.cvFile = 'PDF 파일만 업로드 가능합니다.';
       isValid = false;
     }
