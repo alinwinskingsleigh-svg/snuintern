@@ -1,0 +1,40 @@
+name: Sync from Main (Keep My Changes)
+
+on:
+  # 1. 원할 때 수동으로 버튼 눌러서 실행
+  workflow_dispatch: 
+  
+  # 2. (옵션) 매일 새벽 4시에 자동으로 실행하고 싶다면 주석 해제
+  # schedule:
+  #   - cron: '0 19 * * *' # 한국 시간 새벽 4시 (UTC 19시)
+
+jobs:
+  merge-main-keep-ours:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # 리포지토리에 푸시하기 위해 쓰기 권한 필수
+
+    steps:
+      - name: Checkout Current Branch
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # 병합을 위해 모든 히스토리 가져오기
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git User
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Merge Main into Current Branch (Strategy: Ours)
+        run: |
+          # 1. 메인 브랜치(또는 상위 브랜치) 최신 정보 가져오기
+          git fetch origin main 
+
+          # 2. 병합 시도 (-X ours 옵션 사용)
+          # 충돌이 없으면: 그냥 합쳐짐
+          # 충돌이 있으면: 내 코드(Current)를 유지하고 main의 충돌 부분은 버림
+          git merge origin/main -X ours -m "Auto-sync from main: Keep my custom features"
+
+          # 3. 변경 사항 푸시
+          git push
