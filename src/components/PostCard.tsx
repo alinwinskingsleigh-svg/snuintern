@@ -16,7 +16,6 @@ const PostCard = ({ post, onLoginRequired, refreshPosts }: PostCardProps) => {
 
   // 찜하기 핸들러
   const handleBookmarkToggle = async (e: React.MouseEvent) => {
-    // 카드 클릭 이벤트가 부모로 전파되지 않도록 방지 (별만 눌리게)
     e.stopPropagation();
 
     if (!isAuthenticated) {
@@ -45,18 +44,42 @@ const PostCard = ({ post, onLoginRequired, refreshPosts }: PostCardProps) => {
     }
   };
 
-  // D-Day 계산
-  const endDate = new Date(post.employmentEndDate);
-  const today = new Date();
-  endDate.setHours(0, 0, 0, 0);
-  today.setHours(0, 0, 0, 0);
+  // ✅ [수정] D-Day 계산 로직 (상시모집 처리 추가)
+  const calculateDday = () => {
+    // 1. 문자열 '상시모집', 'ALWAYS' 등 체크
+    if (
+      post.employmentEndDate === '상시모집' ||
+      post.employmentEndDate === '상시' ||
+      post.employmentEndDate === 'ALWAYS'
+    ) {
+      return { diffDays: 999, text: '상시모집', isAlways: true };
+    }
 
-  const diffTime = endDate.getTime() - today.getTime();
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    const endDate = new Date(post.employmentEndDate);
 
-  const isUrgent = diffDays <= 7 && diffDays >= 0;
-  const dDayText =
-    diffDays < 0 ? '마감' : diffDays === 0 ? '오늘 마감' : `D-${diffDays}`;
+    // 2. 날짜 변환 실패(Invalid Date) 체크
+    if (isNaN(endDate.getTime())) {
+      return { diffDays: 999, text: '상시모집', isAlways: true };
+    }
+
+    const today = new Date();
+    endDate.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+
+    const diffTime = endDate.getTime() - today.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    return {
+      diffDays,
+      text: diffDays < 0 ? '마감' : diffDays === 0 ? '오늘 마감' : `D-${diffDays}`,
+      isAlways: false,
+    };
+  };
+
+  const { diffDays, text: dDayText, isAlways } = calculateDday();
+
+  // 상시모집이 아니면서 7일 이내인 경우만 '긴급' 표시
+  const isUrgent = !isAlways && diffDays <= 0;
 
   const domainLabel =
     DOMAINS.find((d) => d.value === post.domain)?.label || post.domain;
@@ -68,7 +91,7 @@ const PostCard = ({ post, onLoginRequired, refreshPosts }: PostCardProps) => {
         <div className="post-card__logo">{/* 로고 블럭 */}</div>
       </div>
 
-      {/* 2. ✨ 제목 + 북마크 버튼을 한 줄에 배치 ✨ */}
+      {/* 2. 제목 + 북마크 버튼 */}
       <div className="post-card__title-row">
         <h3 className="post-card__title">{post.positionTitle}</h3>
 
@@ -88,13 +111,15 @@ const PostCard = ({ post, onLoginRequired, refreshPosts }: PostCardProps) => {
         <span className="post-card__company-name">{post.companyName}</span>
         <span className="post-card__info-separator">•</span>
         <span
-          className={`post-card__d-day ${isUrgent ? 'post-card__d-day--urgent' : ''}`}
+          className={`post-card__d-day ${
+            isUrgent ? 'post-card__d-day--urgent' : ''
+          } ${isAlways ? 'post-card__d-day--always' : ''}`}
         >
           {dDayText}
         </span>
       </div>
 
-      {/* 4. 슬로건 (있으면 표시) */}
+      {/* 4. 슬로건 */}
       {post.slogan && <p className="post-card__slogan">{post.slogan}</p>}
 
       {/* 5. 하단 태그 */}
